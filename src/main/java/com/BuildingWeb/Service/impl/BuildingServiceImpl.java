@@ -8,7 +8,9 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.BuildingWeb.Builder.BuildingSearchBuilder;
 import com.BuildingWeb.Converter.BuildingDTOConverter;
+import com.BuildingWeb.Converter.BuildingSearchBuilderConverter;
 import com.BuildingWeb.DTO.BuildingDTO;
 import com.BuildingWeb.Entity.BuildingEntity;
 import com.BuildingWeb.Repository.BuildingRepository;
@@ -19,9 +21,12 @@ public class BuildingServiceImpl implements BuildingService {
 	BuildingRepository BR;
 	@Autowired
 	BuildingDTOConverter BDTOC;
+	@Autowired
+	BuildingSearchBuilderConverter BSBC;
 	@Override
 public List<BuildingDTO> FindAll(HashMap<String,Object> params,List<String> BuildingType){
-	List<BuildingEntity> RequestBuildingEntity=BR.FindAll(params,BuildingType);
+	BuildingSearchBuilder buildingsearchbuilder=	BSBC.ToBuildingSearchBuilder(params, BuildingType);
+	List<BuildingEntity> RequestBuildingEntity=BR.FindAll( buildingsearchbuilder);
 	List<BuildingDTO> ListBuilding =new ArrayList<>();
 	
 	for(BuildingEntity bett : RequestBuildingEntity) {
