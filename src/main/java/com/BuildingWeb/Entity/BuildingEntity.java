@@ -1,32 +1,103 @@
 package com.BuildingWeb.Entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="building")
 public class BuildingEntity {
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="IdBuilding")
 	private int IdBuilding;
+	@Column(name="Code")
 	private String Code;
+	@Column(name="BuildingName")
 	private String BuildingName;
+	@Column(name="Ward")
 	private String Ward;
+	@Column(name="Way")
 	private String Way;
+	@Column(name="Structure")
 	private String Structure;
+	@Column(name="NumberOfBasement")
 	private int NumberOfBasement;
+	@Column(name="FloorArea")
 	private int FloorArea;
+	@Column(name="Direction")
 	private String Direction;
-	private String Class;
+	@Column(name="Class")
+	private String Class1;
+	@Column(name="Rent")
 	private int Rent;
+	@Column(name="DescriptionPrice")
 	private String DescriptionPrice;
+	@Column(name="MotocycleFee")
 	private String MotocycleFee;
+	@Column(name="CarFee")
 	private String CarFee;
+	@Column(name="ServiceFee")
 	private String ServiceFee;
+	@Column(name="OverTimeFee")
 	private String OverTimeFee;
+	@Column(name="ElectricityBill")
 	private String ElectricityBill;
+	@Column(name="Deposit")
 	private int Deposit;
+	@Column(name="Pay")
 	private String Pay;
+	@Column(name="LeaseTerm")
 	private String LeaseTerm;
+	@Column(name="DecorationTime")
 	private String DecorationTime;
+	@Column(name="ManagerName")
 	private String ManagerName;
+	@Column(name="ManagerPhone")
 	private String ManagerPhone;
+	@Column(name="BrokerageFee")
 	private String BrokerageFee;
+	@Column(name="Note")
 	private String Note;
-	private int IdDistrict;
+	@ManyToOne
+	@JoinColumn(name="IdDistrict")
+	private DistrictEntity District;
+	@OneToMany(mappedBy="Building",fetch=FetchType.LAZY)
+	private List<RentAreaEntity> RentArea=new ArrayList<>();
+	@OneToMany(mappedBy="Building",fetch=FetchType.LAZY)
+	private List<BuildingUserEntity> BuildingUser=new ArrayList<>(); 
+	@OneToMany(mappedBy="Building",fetch=FetchType.LAZY)
+	private List<BuildingTypeEntity> BuildingType=new ArrayList<>();
+	
+	public List<BuildingTypeEntity> getBuildingType() {
+		return BuildingType;
+	}
+	public void setBuildingType(List<BuildingTypeEntity> buildingType) {
+		BuildingType = buildingType;
+	}
+	public List<BuildingUserEntity> getBuildingUser() {
+		return BuildingUser;
+	}
+	public void setBuildingUser(List<BuildingUserEntity> buildingUser) {
+		BuildingUser = buildingUser;
+	}
+
+	public List<RentAreaEntity> getRentArea() {
+		return RentArea;
+	}
+	public void setRentArea(List<RentAreaEntity> rentArea) {
+		RentArea = rentArea;
+	}
 	public int getIdBuilding() {
 		return IdBuilding;
 	}
@@ -82,10 +153,10 @@ public class BuildingEntity {
 		Direction = direction;
 	}
 	public String getClass1() {
-		return Class;
+		return Class1;
 	}
 	public void setClass1(String class1) {
-		Class = class1;
+		Class1 = class1;
 	}
 	public int getRent() {
 		return Rent;
@@ -177,11 +248,12 @@ public class BuildingEntity {
 	public void setNote(String note) {
 		Note = note;
 	}
-	public int getIdDistrict() {
-		return IdDistrict;
+	public DistrictEntity getDistrict() {
+		return District;
 	}
-	public void setIdDistrict(int idDistrict) {
-		IdDistrict = idDistrict;
+	public void setDistrict(DistrictEntity district) {
+		District = district;
 	}
+	
 }
 

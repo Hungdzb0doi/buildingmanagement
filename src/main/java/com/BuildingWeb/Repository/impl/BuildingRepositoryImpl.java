@@ -4,17 +4,29 @@ package com.BuildingWeb.Repository.impl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import com.BuildingWeb.Builder.BuildingSearchBuilder;
+import com.BuildingWeb.DTO.RequestBuildingDTO;
 import com.BuildingWeb.Entity.BuildingEntity;
+import com.BuildingWeb.Entity.DistrictEntity;
 import com.BuildingWeb.Repository.BuildingRepository;
-import com.BuildingWeb.Utils.ConnectionJDBCUtil;
 import com.BuildingWeb.Utils.StringUtil;
 import java.lang.reflect.Field;
-import java.sql.*;
+
 @Repository
 public class BuildingRepositoryImpl implements BuildingRepository {
     List<BuildingEntity> ListBuilding=new ArrayList<>();
+    @Autowired
+	ModelMapper modelmapper;
+    @PersistenceContext
+    private EntityManager entityManager;
 	
 	public void JoinTable(BuildingSearchBuilder buildingsearchbuilder, StringBuilder sql) {
 		if(StringUtil.CheckString(buildingsearchbuilder.getDistrictName())){
@@ -61,10 +73,10 @@ public class BuildingRepositoryImpl implements BuildingRepository {
 		}
 		if(buildingsearchbuilder.getAreaFrom()!=null||buildingsearchbuilder.getAreaTo()!=null) {
 			if(buildingsearchbuilder.getAreaFrom()!=null) {
-				sql.append(" and Area >= "+buildingsearchbuilder.getAreaFrom());
+				sql.append(" and rentarea.Area >= "+buildingsearchbuilder.getAreaFrom());
 			}
 			if(buildingsearchbuilder.getAreaTo()!=null) {
-				sql.append(" and Area <= "+buildingsearchbuilder.getAreaTo());
+				sql.append(" and rentarea.Area <= "+buildingsearchbuilder.getAreaTo());
 			}
 		}
 		if(buildingsearchbuilder.getTypeCode()!=null) {
@@ -75,51 +87,31 @@ public class BuildingRepositoryImpl implements BuildingRepository {
 	}
 public List<BuildingEntity> FindAll(BuildingSearchBuilder buildingsearchbuilder){
 
-	StringBuilder sql=new StringBuilder("select * from building ");
+	StringBuilder sql=new StringBuilder("select building.* from building ");
 	JoinTable(buildingsearchbuilder,sql);
 	    sql.append(" Where 1=1");
 	NormalQuery(buildingsearchbuilder,sql);
 	SpecialQuery(buildingsearchbuilder,sql);
-	try(Connection con=ConnectionJDBCUtil.getConnection();
-		Statement stm=con.createStatement();
-		ResultSet rs=stm.executeQuery(sql.toString());	){
-		while(rs.next()) {
-			
-			BuildingEntity bett=new BuildingEntity();
-			
-			bett.setIdBuilding(rs.getInt("IdBuilding"));
-			bett.setBuildingName(rs.getString("BuildingName"));
-			bett.setCode(rs.getString("Code"));
-			bett.setWard(rs.getString("Ward"));
-			bett.setWay(rs.getString("Way"));
-			bett.setStructure(rs.getString("Structure"));
-			bett.setNumberOfBasement(rs.getInt("NumberOfBasement"));
-			bett.setFloorArea(rs.getInt("FloorArea"));
-			bett.setDirection(rs.getString("Direction"));
-			bett.setClass1(rs.getString("Class"));
-			bett.setRent(rs.getInt("Rent"));
-			bett.setDescriptionPrice(rs.getString("DescriptionPrice"));
-			bett.setMotocycleFee(rs.getString("MotocycleFee"));
-			bett.setCarFee(rs.getString("CarFee"));
-			bett.setServiceFee(rs.getString("ServiceFee"));
-			bett.setOverTimeFee(rs.getString("OverTimeFee"));
-			bett.setElectricityBill(rs.getString("ElectricityBill"));
-			bett.setDeposit(rs.getInt("Deposit"));
-			bett.setPay(rs.getString("Pay"));
-			bett.setLeaseTerm(rs.getString("Leaseterm"));
-			bett.setDecorationTime(rs.getString("DecorationTime"));
-			bett.setManagerName(rs.getString("ManagerName"));
-			bett.setManagerPhone(rs.getString("ManagerPhone"));
-			bett.setBrokerageFee(rs.getString("BrokerageFee"));
-			bett.setNote(rs.getString("Note"));
-			bett.setIdDistrict(rs.getInt("IdDistrict"));
-			
-			ListBuilding.add(bett);
-			
-		}
-		
-	}catch(SQLException e) {
-		System.out.println(e.getMessage());
-	}
-	return ListBuilding;
-}}
+	Query query=entityManager.createNativeQuery(sql.toString(), BuildingEntity.class);
+	return query.getResultList();
+}
+public void InsertBuilding(RequestBuildingDTO requestbuildingdto) {
+	
+	BuildingEntity buildingentity=modelmapper.map(requestbuildingdto, BuildingEntity.class);
+	DistrictEntity districtentity= new DistrictEntity();
+	districtentity.setIdDistrict(requestbuildingdto.getIdDistrict());
+	buildingentity.setDistrict(districtentity);
+	entityManager.persist(buildingentity);
+}
+public void UpdateBuilding(RequestBuildingDTO requestbuildingdto) {
+	BuildingEntity buildingentity=entityManager.find(BuildingEntity.class, requestbuildingdto.getIdBuilding());
+	modelmapper.map(requestbuildingdto, buildingentity);
+	DistrictEntity districtentity= entityManager.find(DistrictEntity.class,requestbuildingdto.getIdDistrict());
+	buildingentity.setDistrict(districtentity);
+	entityManager.merge(buildingentity);
+}
+public void DeleteBuilding(int id) {
+	BuildingEntity buildingentity=entityManager.find(BuildingEntity.class, id);
+	entityManager.remove(buildingentity);
+}
+}
