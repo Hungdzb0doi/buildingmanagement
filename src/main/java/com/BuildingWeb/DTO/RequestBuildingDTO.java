@@ -2,7 +2,7 @@ package com.BuildingWeb.DTO;
 
 
 public class RequestBuildingDTO {
-private int IdBuilding;
+private Long IdBuilding;
 private String BuildingName;
 private String Code;
 private String ward;
@@ -17,11 +17,11 @@ private int EmptyArea;
 private int Rent;
 private String ServiceFee;
 private String BrokerageFee;
-public int getIdBuilding() {
+public Long getIdBuilding() {
 	return IdBuilding;
 }
-public void setIdBuilding(int idBuilding) {
-	IdBuilding = idBuilding;
+public void setIdBuilding(Long idBuilding) {
+	IdBuilding =  idBuilding;
 }
 public String getCode() {
 	return Code;

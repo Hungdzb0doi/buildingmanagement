@@ -1,13 +1,15 @@
 package com.BuildingWeb.Repository;
-import java.util.List;
-import com.BuildingWeb.Builder.BuildingSearchBuilder;
-import com.BuildingWeb.DTO.RequestBuildingDTO;
+
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+
 import com.BuildingWeb.Entity.BuildingEntity;
+import com.BuildingWeb.Repository.Custom.BuildingRepositoryCustom;
 
 
-public interface BuildingRepository {
-List<BuildingEntity> FindAll(BuildingSearchBuilder buildingsearchbuilder);
-void InsertBuilding(RequestBuildingDTO requestbuildingdto);
-void UpdateBuilding(RequestBuildingDTO requestbuildingdto);
-void DeleteBuilding(int id);
+public interface BuildingRepository extends JpaRepository<BuildingEntity,Long>,BuildingRepositoryCustom {
+
+	void deleteByIdBuildingIn(Long[] id);
+
 }

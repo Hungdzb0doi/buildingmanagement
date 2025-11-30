@@ -17,7 +17,7 @@ public class DistrictEntity {
 @Id
 @GeneratedValue(strategy=GenerationType.IDENTITY)
 @Column(name="IdDistrict")
-private int IdDistrict;
+private Long IdDistrict;
 @Column(name="CodeDistrict")
 private String CodeDistrict;
 @Column(name="DistrictName")
@@ -31,11 +31,11 @@ public List<BuildingEntity> getBuilding() {
 public void setBuilding(List<BuildingEntity> building) {
 	Building = building;
 }
-public int getIdDistrict() {
+public Long getIdDistrict() {
 	return IdDistrict;
 }
-public void setIdDistrict(int idDistrict) {
-	IdDistrict = idDistrict;
+public void setIdDistrict(Long integer) {
+	IdDistrict = integer;
 }
 public String getCodeDistrict() {
 	return CodeDistrict;
