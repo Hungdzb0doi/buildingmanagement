@@ -20,7 +20,7 @@ import com.BuildingWeb.DTO.RequestBuildingDTO;
 import com.BuildingWeb.Entity.BuildingEntity;
 import com.BuildingWeb.Entity.DistrictEntity;
 import com.BuildingWeb.Repository.BuildingRepository;
-import com.BuildingWeb.Repository.Custom.DistrictRepository;
+import com.BuildingWeb.Repository.DistrictRepository;
 import com.BuildingWeb.Service.BuildingService;
 @Service
 @Transactional

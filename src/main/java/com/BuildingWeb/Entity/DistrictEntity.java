@@ -34,8 +34,8 @@ public void setBuilding(List<BuildingEntity> building) {
 public Long getIdDistrict() {
 	return IdDistrict;
 }
-public void setIdDistrict(Long integer) {
-	IdDistrict = integer;
+public void setIdDistrict(Long i) {
+	IdDistrict = i;
 }
 public String getCodeDistrict() {
 	return CodeDistrict;
