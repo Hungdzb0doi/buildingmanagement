@@ -24,15 +24,36 @@ private String UserName;
 @Column(name="Password")
 private String Password;
 @OneToMany(mappedBy="User",fetch=FetchType.LAZY)
-private List<UserEntity> User=new ArrayList<>();
+private List<AssigmentCustomerEntity> AssigmentCustomer=new ArrayList<>();
+@OneToMany(mappedBy = "User",fetch=FetchType.LAZY)
+private List<UserRoleEntity> UserRole=new ArrayList<>();
+@OneToMany(mappedBy = "User",fetch=FetchType.LAZY)
+private List<TransactionEntity> Transaction=new ArrayList<>();
+    public List<AssigmentCustomerEntity> getAssigmentCustomer() {
+        return AssigmentCustomer;
+    }
 
-public List<UserEntity> getUser() {
-	return User;
-}
-public void setUser(List<UserEntity> user) {
-	User = user;
-}
-public int getIdUser() {
+    public void setAssigmentCustomer(List<AssigmentCustomerEntity> assigmentCustomer) {
+        AssigmentCustomer = assigmentCustomer;
+    }
+
+    public List<UserRoleEntity> getUserRole() {
+        return UserRole;
+    }
+
+    public void setUserRole(List<UserRoleEntity> userRole) {
+        UserRole = userRole;
+    }
+
+    public List<TransactionEntity> getTransaction() {
+        return Transaction;
+    }
+
+    public void setTransaction(List<TransactionEntity> transaction) {
+        Transaction = transaction;
+    }
+
+    public int getIdUser() {
 	return IdUser;
 }
 public void setIdUser(int idUser) {
