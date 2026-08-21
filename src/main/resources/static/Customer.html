@@ -1,0 +1,424 @@
+<!-- BẮT ĐẦU TỪ BREADCRUMB -->
+<div class="page-header">
+    <h1>
+        Danh sách Khách hàng
+        <small><i class="ace-icon fa fa-angle-double-right"></i> Tra cứu & Chăm sóc</small>
+    </h1>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+
+        <!-- FORM TÌM KIẾM -->
+        <div class="row" style="margin-bottom: 15px;">
+            <div class="col-xs-12">
+                <div class="widget-box">
+                    <div class="widget-header">
+                        <h4 class="widget-title">Tìm kiếm khách hàng</h4>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main">
+                            <form id="formSearchCustomer" class="form-horizontal">
+                                <div class="row">
+                                    <div class="col-sm-5">
+                                        <label><b>Tên khách hàng</b></label>
+                                        <input type="text" id="searchName" class="form-control" placeholder="Nhập tên khách hàng...">
+                                    </div>
+                                    <div class="col-sm-5">
+                                        <label><b>Số điện thoại</b></label>
+                                        <input type="text" id="searchPhone" class="form-control" placeholder="Nhập số điện thoại...">
+                                    </div>
+                                    <div class="col-sm-2" style="margin-top: 25px;">
+                                        <button type="button" class="btn btn-sm btn-primary" id="btnSearchCustomer">
+                                            <i class="ace-icon fa fa-search"></i> Tìm kiếm
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- THANH CÔNG CỤ -->
+        <div class="row" style="margin-bottom: 15px;">
+            <div class="col-xs-12 text-right">
+                <button class="btn btn-success btn-sm" id="btnAddCustomer">
+                    <i class="ace-icon fa fa-plus align-top bigger-125"></i> Thêm khách hàng
+                </button>
+                <button class="btn btn-danger btn-sm" id="btnDeleteMultiple" style="display: none;">
+                    <i class="ace-icon fa fa-trash-o align-top bigger-125"></i> Xóa đã chọn
+                </button>
+            </div>
+        </div>
+
+        <!-- BẢNG DANH SÁCH -->
+        <div class="row">
+            <div class="col-xs-12">
+                <table id="customerListTable" class="table table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th class="center" style="width: 40px;">
+                            <label class="pos-rel"><input type="checkbox" class="ace" id="checkAll"/><span class="lbl"></span></label>
+                        </th>
+                        <th style="width: 50px;">STT</th>
+                        <th>Họ và tên</th>
+                        <th>Số điện thoại</th>
+                        <th>Email</th>
+                        <th style="width: 150px;">Thao tác</th>
+                    </tr>
+                    </thead>
+                    <tbody id="customerListBody">
+                    <tr><td colspan="6" class="center">Đang tải dữ liệu...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- MODAL THÊM / SỬA KHÁCH HÀNG -->
+<div class="modal fade" role="dialog" id="customerModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 style="color:rgb(0, 140, 255);" class="modal-title" id="modalTitle"><i class="fa fa-user"></i> Thêm Khách hàng</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" id="form-customer">
+                    <input type="hidden" id="idCustomer" name="idCustomer">
+                    <div class="form-group">
+                        <label><b>Tên khách hàng (*)</b></label>
+                        <input type="text" class="form-control" name="customerName" id="inputCustomerName" placeholder="Nhập họ và tên...">
+                    </div>
+                    <div class="form-group">
+                        <label><b>Số điện thoại (*)</b></label>
+                        <input type="text" class="form-control" name="phone" id="inputPhone" placeholder="Nhập số điện thoại...">
+                    </div>
+                    <div class="form-group">
+                        <label><b>Email</b></label>
+                        <input type="email" class="form-control" name="email" id="inputEmail" placeholder="Nhập địa chỉ email...">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="btnSaveCustomer"><i class="fa fa-save"></i> Lưu thông tin</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL GIAO KHÁCH HÀNG CHO NHÂN VIÊN -->
+<div class="modal fade" role="dialog" id="assignmentCustomerModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 style="color:rgb(0, 140, 255);" class="modal-title">
+                    <i class="fa fa-users"></i> Giao khách hàng cho nhân viên
+                </h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="assignCustomerId">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th class="center" style="width: 50px;">
+                            <label class="pos-rel"><input type="checkbox" class="ace" id="checkAllStaff"/><span class="lbl"></span></label>
+                        </th>
+                        <th>Tên nhân viên</th>
+                    </tr>
+                    </thead>
+                    <tbody id="staffListBody"></tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="btnSaveAssignmentCustomer"><i class="fa fa-save"></i> Lưu phân công</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL LỊCH SỬ CHĂM SÓC -->
+<div class="modal fade" role="dialog" id="transactionModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 style="color:rgb(0, 140, 255);" class="modal-title">
+                    <i class="fa fa-history"></i> Lịch sử Chăm sóc: <span id="transCustomerName" style="color: red;"></span>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="transCustomerId">
+                <div class="well" style="padding-bottom: 0;">
+                    <h5 style="margin-top: 0;"><b>Thêm ghi chú mới</b></h5>
+                    <div class="row" style="margin-bottom: 10px;">
+                        <div class="col-xs-12" id="transCodeContainer">
+                            <label class="inline"><input type="checkbox" class="ace"/><span class="lbl"> Đang tải...</span></label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-10" style="margin-bottom: 15px;">
+                            <input type="text" class="form-control" id="transNote" placeholder="Nhập nội dung tư vấn, phản hồi của khách...">
+                        </div>
+                        <div class="col-sm-2">
+                            <button type="button" class="btn btn-sm btn-primary btn-block" id="btnAddTransaction">
+                                <i class="fa fa-plus"></i> Thêm
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <table class="table table-bordered table-striped table-hover">
+                    <thead>
+                    <tr>
+                        <th class="center" style="width: 150px;">Ngày tạo</th>
+                        <th style="width: 150px;">Nhân viên</th>
+                        <th style="width: 150px;">Phân loại</th>
+                        <th>Ghi chú</th>
+                    </tr>
+                    </thead>
+                    <tbody id="transactionListBody"></tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var CUSTOMER_API_URL = "http://localhost:8082/api/customer";
+    var ASSIGN_CUSTOMER_API_URL = "http://localhost:8082/api/assignmentcustomer";
+    var USER_API_URL = "http://localhost:8082/api/user";
+    var TRANSACTION_API_URL = "http://localhost:8082/api/transaction";
+    var TRANSACTION_TYPE_API_URL = "http://localhost:8082/api/transactiontype";
+
+    var isManagerOrAdmin = window.isManagerOrAdmin || false;
+
+    // Ẩn nút Thêm/Xóa với STAFF
+    if (!isManagerOrAdmin) {
+        $('#btnAddCustomer').hide();
+    }
+
+    function loadCustomers() {
+        $.ajax({
+            type: "GET", url: CUSTOMER_API_URL,
+            data: { customerName: $('#searchName').val(), phone: $('#searchPhone').val() },
+            dataType: "json",
+            success: function(response) {
+                var customerList = response.data;
+                if (!customerList || customerList.length === 0) {
+                    $('#customerListBody').html('<tr><td colspan="6" class="center">Không tìm thấy khách hàng nào.</td></tr>');
+                    return;
+                }
+                var html = '';
+                var stt = 1;
+                $.each(customerList, function(index, customer) {
+                    html += '<tr>';
+                    html += '<td class="center"><label class="pos-rel"><input type="checkbox" class="ace item-check" value="' + customer.idCustomer + '"/><span class="lbl"></span></label></td>';
+                    html += '<td class="center">' + (stt++) + '</td>';
+                    html += '<td><b>' + customer.customerName + '</b></td>';
+                    html += '<td>' + customer.phone + '</td>';
+                    html += '<td>' + (customer.email || '') + '</td>';
+                    html += '<td class="center">';
+                    if (isManagerOrAdmin) {
+                        html += '<button class="btn btn-xs btn-info btn-edit-customer" data-id="' + customer.idCustomer + '" data-name="' + customer.customerName + '" data-phone="' + customer.phone + '" data-email="' + (customer.email || '') + '" title="Cập nhật"><i class="ace-icon fa fa-pencil bigger-120"></i></button> ';
+                    }
+                    html += '<button class="btn btn-xs btn-warning" onclick="openTransactionModal(' + customer.idCustomer + ', \'' + customer.customerName + '\')" title="Lịch sử CSKH"><i class="ace-icon fa fa-history bigger-120"></i></button> ';
+                    if (isManagerOrAdmin) {
+                        html += '<button class="btn btn-xs btn-success" onclick="assignCustomer(' + customer.idCustomer + ')" title="Giao khách hàng"><i class="ace-icon fa fa-users bigger-120"></i></button>';
+                    }
+                    html += '</td></tr>';
+                });
+                $('#customerListBody').html(html);
+            }
+        });
+    }
+
+    $('#btnSearchCustomer').off('click').on('click', function(e) { e.preventDefault(); loadCustomers(); });
+
+    $('#btnAddCustomer').off('click').on('click', function() { openCustomerModal(); });
+
+    $('#customerListBody').off('click', '.btn-edit-customer').on('click', '.btn-edit-customer', function() {
+        var btn = $(this);
+        openCustomerModal(btn.data('id'), btn.data('name'), btn.data('phone'), btn.data('email'));
+    });
+
+    window.openCustomerModal = function(id, name, phone, email) {
+        $('#form-customer')[0].reset();
+        $('#idCustomer').val('');
+        $('#modalTitle').html('<i class="fa fa-user-plus"></i> Thêm Khách hàng');
+        if (id) {
+            $('#idCustomer').val(id);
+            $('#inputCustomerName').val(name);
+            $('#inputPhone').val(phone);
+            $('#inputEmail').val(email);
+            $('#modalTitle').html('<i class="fa fa-pencil-square-o"></i> Cập nhật Khách hàng');
+        }
+        $('#customerModal').modal('show');
+    }
+
+    $('#btnSaveCustomer').off('click').on('click', function(e) {
+        e.preventDefault();
+        var data = {};
+        $.each($('#form-customer').serializeArray(), function(i, v) {
+            if (v.value.trim() !== "") data[v.name] = v.value.trim();
+        });
+        if (!data.customerName || !data.phone) { alert("Vui lòng nhập Tên và Số điện thoại!"); return; }
+        var requestType = data.idCustomer ? 'PUT' : 'POST';
+        if (data.idCustomer) data.idCustomer = parseInt(data.idCustomer);
+        $.ajax({
+            type: requestType, url: CUSTOMER_API_URL,
+            data: JSON.stringify(data), contentType: 'application/json',
+            success: function() { alert("Lưu thành công!"); $('#customerModal').modal('hide'); loadCustomers(); },
+            error: function() { alert("Có lỗi xảy ra!"); }
+        });
+    });
+
+    $('#checkAll').off('click').on('click', function() { $('.item-check').prop('checked', this.checked); toggleDeleteButton(); });
+    $('#customerListBody').off('change', '.item-check').on('change', '.item-check', function() { toggleDeleteButton(); });
+
+    function toggleDeleteButton() {
+        if (isManagerOrAdmin && $('.item-check:checked').length > 0) {
+            $('#btnDeleteMultiple').show();
+        } else {
+            $('#btnDeleteMultiple').hide();
+        }
+    }
+
+    $('#btnDeleteMultiple').off('click').on('click', function() {
+        var selectedIds = [];
+        $('.item-check:checked').each(function() { selectedIds.push(parseInt($(this).val())); });
+        if (confirm("Bạn có chắc chắn muốn xóa " + selectedIds.length + " khách hàng? Dữ liệu không thể khôi phục!")) {
+            $.ajax({
+                type: 'DELETE', url: CUSTOMER_API_URL + '/' + selectedIds.join(','),
+                success: function() { alert("Xóa thành công!"); $('#checkAll').prop('checked', false); $('#btnDeleteMultiple').hide(); loadCustomers(); },
+                error: function() { alert("Xóa thất bại!"); }
+            });
+        }
+    });
+
+    window.assignCustomer = function(customerId) {
+        $('#assignCustomerId').val(customerId);
+        $.ajax({
+            type: "GET", url: USER_API_URL, dataType: "json",
+            success: function(response) {
+                var staffList = response.data ? response.data : response;
+                var html = '';
+                $.each(staffList, function(index, staff) {
+                    html += '<tr><td class="center"><label class="pos-rel"><input type="checkbox" class="ace assign-check" value="' + staff.idUser + '"/><span class="lbl"></span></label></td>';
+                    html += '<td><b>' + staff.userName + '</b></td></tr>';
+                });
+                $('#staffListBody').html(html);
+                $.ajax({
+                    type: "GET", url: ASSIGN_CUSTOMER_API_URL + "/" + customerId, dataType: "json",
+                    success: function(res) {
+                        var assignedIds = res.data ? res.data : [];
+                        $.each(assignedIds, function(i, id) { $('#staffListBody input[value="' + id + '"]').prop('checked', true); });
+                        $('#assignmentCustomerModal').modal('show');
+                    },
+                    error: function() { alert("Không thể tải danh sách nhân viên!"); }
+                });
+            }
+        });
+    }
+
+    $('#checkAllStaff').off('click').on('click', function() { $('.assign-check').prop('checked', this.checked); });
+
+    $('#btnSaveAssignmentCustomer').off('click').on('click', function(e) {
+        e.preventDefault();
+        var customerId = $('#assignCustomerId').val();
+        var selectedStaffs = [];
+        $('.assign-check:checked').each(function() { selectedStaffs.push(parseInt($(this).val())); });
+        $.ajax({
+            type: "POST", url: ASSIGN_CUSTOMER_API_URL,
+            data: JSON.stringify({ idCustomer: parseInt(customerId), idUser: selectedStaffs }),
+            contentType: "application/json",
+            success: function() { alert("Giao khách hàng thành công!"); $('#assignmentCustomerModal').modal('hide'); },
+            error: function() { alert("Giao khách hàng thất bại!"); }
+        });
+    });
+
+    function loadTransactionTypes() {
+        $.ajax({
+            type: "GET", url: TRANSACTION_TYPE_API_URL, dataType: "json",
+            success: function(response) {
+                var typeList = response.data ? response.data : [];
+                var html = '';
+                var uniqueCodes = [];
+                $.each(typeList, function(index, typeItem) {
+                    if (!uniqueCodes.includes(typeItem.code)) {
+                        uniqueCodes.push(typeItem.code);
+                        html += '<label class="inline" style="margin-right: 15px;"><input type="checkbox" class="ace trans-type-check" value="' + typeItem.code + '"/><span class="lbl"> ' + typeItem.transactionTypeName + '</span></label>';
+                    }
+                });
+                $('#transCodeContainer').html(html);
+            }
+        });
+    }
+
+    window.openTransactionModal = function(customerId, customerName) {
+        $('#transCustomerId').val(customerId);
+        $('#transCustomerName').text(customerName);
+        $('#transNote').val('');
+        $('.trans-type-check').prop('checked', false);
+        loadCustomerTransactions(customerName);
+        $('#transactionModal').modal('show');
+    }
+
+    function loadCustomerTransactions(customerName) {
+        $.ajax({
+            type: "GET", url: TRANSACTION_API_URL, data: { customerName: customerName }, dataType: "json",
+            success: function(response) {
+                var transList = response.data ? response.data : [];
+                var html = '';
+                if (transList.length === 0) {
+                    html = '<tr><td colspan="4" class="center">Chưa có lịch sử chăm sóc nào.</td></tr>';
+                } else {
+                    transList.sort(function(a, b) { return new Date(b.createdDate) - new Date(a.createdDate); });
+                    $.each(transList, function(index, item) {
+                        var dateStr = item.createdDate ? new Date(item.createdDate).toLocaleDateString('vi-VN') : "";
+                        var codeLabel = "";
+                        if (item.transactionTypeName) {
+                            var codes = Array.isArray(item.transactionTypeName) ? item.transactionTypeName : item.transactionTypeName.split(",");
+                            $.each(codes, function(i, c) {
+                                var cleanCode = c.toString().trim();
+                                if (cleanCode) codeLabel += '<span class="label label-info arrowed-in-right arrowed" style="margin-right: 4px;">' + cleanCode + '</span>';
+                            });
+                        }
+                        html += '<tr><td class="center">' + dateStr + '</td><td><b>' + (item.user || 'N/A') + '</b></td><td class="center">' + codeLabel + '</td><td>' + (item.note || '') + '</td></tr>';
+                    });
+                }
+                $('#transactionListBody').html(html);
+            }
+        });
+    }
+
+    $('#btnAddTransaction').off('click').on('click', function(e) {
+        e.preventDefault();
+        var customerId = $('#transCustomerId').val();
+        var customerName = $('#transCustomerName').text();
+        var note = $('#transNote').val().trim();
+        if (!note) { alert("Vui lòng nhập nội dung ghi chú!"); return; }
+        var selectedCodes = [];
+        $('.trans-type-check:checked').each(function() { selectedCodes.push($(this).val()); });
+        if (selectedCodes.length === 0) { alert("Vui lòng chọn ít nhất một Phân loại giao dịch!"); return; }
+        $.ajax({
+            type: "POST", url: TRANSACTION_API_URL,
+            data: JSON.stringify({ idCustomer: parseInt(customerId), code: selectedCodes, note: note }),
+            contentType: "application/json",
+            success: function() { $('#transNote').val(''); $('.trans-type-check').prop('checked', false); loadCustomerTransactions(customerName); },
+            error: function() { alert("Thêm ghi chú thất bại!"); }
+        });
+    });
+
+    loadTransactionTypes();
+    loadCustomers();
+</script>

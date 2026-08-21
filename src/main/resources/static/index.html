@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta charset="utf-8" />
+    <title>Hệ thống CRM Bất Động Sản</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+
+
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="/assets/css/ace.min.css" class="ace-main-stylesheet" id="main-ace-style" />
+    <link rel="stylesheet" href="/assets/css/ace-skins.min.css" />
+    <link rel="stylesheet" href="/assets/css/ace-rtl.min.css" />
+
+    <style>
+        /* CSS dùng chung cho toàn hệ thống */
+        .center { text-align: center; }
+        .widget-box { margin-bottom: 20px; }
+        #page-content-area { min-height: 500px; }
+
+        /* Hiệu ứng mờ khi load trang */
+        .content-loading { opacity: 0.5; pointer-events: none; }
+
+
+
+        :root {
+            /* Tone màu pastel nhẹ nhàng chuẩn của Ace Admin */
+            --primary-blue: #438EB9;    /* Xanh dương dịu (Nút Thêm/Lưu/Tìm kiếm) */
+            --primary-green: #87B87F;   /* Xanh lá nhạt (Nút Giao/Sửa/Thành công) */
+            --primary-red: #D15B47;     /* Đỏ nhạt (Nút Xóa/Hủy/Cảnh báo) */
+            --bg-light: #F2F2F2;        /* Xám rất nhạt cho nền tiêu đề bảng */
+            --text-dark: #393939;       /* Đen nhạt, không dùng đen tuyền */
+        }
+
+        /* 2. CHUẨN HÓA CÁC NÚT BẤM (BUTTONS) THEO 3 MÀU NHẸ */
+
+        /* --- Nút Xanh Dương (Blue) --- */
+        .btn-primary, .btn-info {
+            background-color: var(--primary-blue) !important;
+            border-color: var(--primary-blue) !important;
+            color: white !important;
+            text-shadow: 0 -1px 0 rgba(0,0,0,0.2) !important; /* Đổ bóng chữ nhẹ đặc trưng Ace Admin */
+        }
+        .btn-primary:hover, .btn-info:hover {
+            background-color: #3276B1 !important; /* Tối đi một chút khi di chuột */
+            border-color: #285E8E !important;
+        }
+
+        /* --- Nút Xanh Lá (Green) --- */
+        .btn-success {
+            background-color: var(--primary-green) !important;
+            border-color: var(--primary-green) !important;
+            color: white !important;
+            text-shadow: 0 -1px 0 rgba(0,0,0,0.2) !important;
+        }
+        .btn-success:hover {
+            background-color: #629B58 !important;
+            border-color: #4A853D !important;
+        }
+
+        /* --- Nút Đỏ (Red) --- */
+        .btn-danger, .btn-warning {
+            background-color: var(--primary-red) !important;
+            border-color: var(--primary-red) !important;
+            color: white !important;
+            text-shadow: 0 -1px 0 rgba(0,0,0,0.2) !important;
+        }
+        .btn-danger:hover, .btn-warning:hover {
+            background-color: #B74635 !important;
+            border-color: #9C301D !important;
+        }
+
+        /* Nút mặc định (Default/Trắng xám) cho các nút Hủy/Quay lại */
+        .btn-default {
+            background-color: #ABBAC3 !important;
+            border-color: #ABBAC3 !important;
+            color: white !important;
+        }
+        .btn-default:hover {
+            background-color: #8B9AA3 !important;
+            border-color: #8B9AA3 !important;
+        }
+
+        /* 3. CHUẨN HÓA BẢNG DỮ LIỆU (TABLES) */
+        .table {
+            border: 1px solid #E5E5E5;
+        }
+        .table > thead > tr > th {
+            background-image: linear-gradient(to bottom, #F8F8F8 0%, #ECECEC 100%) !important; /* Background gradient nhẹ của Ace Admin */
+            background-color: var(--bg-light) !important;
+            color: #707070 !important; /* Chữ xám đậm, không đen */
+            font-weight: bold;
+            text-align: center;
+            vertical-align: middle !important;
+            border-bottom: 1px solid #DDD !important;
+        }
+        .table > tbody > tr > td {
+            vertical-align: middle !important;
+            color: var(--text-dark);
+        }
+        .table-hover > tbody > tr:hover > td {
+            background-color: #F5F5F5 !important; /* Màu hover xám cực nhạt */
+        }
+
+        /* 4. CHUẨN HÓA NHÃN (BADGES / LABELS) THEO 3 MÀU NHẸ */
+        .label-info, .label-primary { background-color: var(--primary-blue) !important; }
+        .label-success { background-color: var(--primary-green) !important; }
+        .label-danger, .label-warning { background-color: var(--primary-red) !important; }
+
+        /* 5. TIỆN ÍCH DÙNG CHUNG */
+        .center { text-align: center; }
+        .text-blue { color: var(--primary-blue) !important; }
+        .text-green { color: var(--primary-green) !important; }
+        .text-red { color: var(--primary-red) !important; }
+
+        /* 6. STYLE ĐẶC THÙ CỦA SPA & FORM */
+        .widget-box {
+            margin-bottom: 20px;
+            border: 1px solid #CCC;
+            box-shadow: none; /* Ace Admin ít dùng shadow to */
+        }
+        .widget-header {
+            background: #F7F7F7; /* Nền xám nhạt cho Widget Header */
+            border-bottom: 1px solid #CCC;
+        }
+        #page-content-area { min-height: 500px; transition: opacity 0.2s ease; }
+        .content-loading { opacity: 0.5; pointer-events: none; }
+
+        .form-section-title {
+            font-size: 13px;
+            text-transform: uppercase;
+            color: #438EB9; /* Trả về đúng màu xanh nhạt của chữ Ace Admin */
+            letter-spacing: 0.05em;
+            margin: 25px 0 15px 0;
+            font-weight: normal !important;
+            border-bottom: 1px solid #E5E7EB;
+            padding-bottom: 8px;
+        }
+        /* 7. ÉP CÁC NÚT THAO TÁC NẰM NGANG TRÊN 1 DÒNG */
+        .action-buttons {
+            display: inline-flex !important;
+            flex-wrap: nowrap !important; /* Tuyệt đối không cho rớt dòng */
+            justify-content: center;
+            align-items: center;
+            gap: 4px; /* Khoảng cách đều nhau giữa các nút */
+        }
+        .action-buttons .btn {
+            margin: 0 !important; /* Ghi đè margin cũ của Ace Admin */
+        }
+        /* Đảm bảo ô (td) chứa nút cũng không được tự động bẻ chữ */
+        .table tbody td:last-child {
+            white-space: nowrap;
+        }
+
+    </style>
+</head>
+
+<body class="no-skin">
+
+<div id="navbar" class="navbar navbar-default ace-save-state">
+    <div class="navbar-container">
+        <div class="navbar-header pull-left">
+            <a href="#" class="navbar-brand">
+                <small><i class="fa fa-building"></i> CRM Building Management</small>
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="main-container ace-save-state" id="main-container">
+
+
+    <div id="sidebar" class="sidebar responsive ace-save-state">
+        <ul class="nav nav-list" id="main-menu">
+
+            <li class="active" id="menu-dashboard">
+                <a href="#" class="spa-link" data-page="/interface/dashboard">
+                    <i class="menu-icon fa fa-tachometer"></i>
+                    <span class="menu-text"> Trang chủ </span>
+                </a>
+            </li>
+
+
+            <li>
+                <a href="#" class="spa-link" data-page="/interface/building">
+                    <i class="menu-icon fa fa-building"></i>
+                    <span class="menu-text"> Quản lý tòa nhà </span>
+                </a>
+            </li>
+
+
+            <li>
+                <a href="#" class="spa-link" data-page="/interface/customer">
+                    <i class="menu-icon fa fa-users"></i>
+                    <span class="menu-text"> Quản lý khách hàng </span>
+                </a>
+            </li>
+
+
+            <li>
+                <a href="#" class="spa-link" data-page="/interface/transaction">
+                    <i class="menu-icon fa fa-exchange"></i>
+                    <span class="menu-text"> Lịch sử giao dịch </span>
+                </a>
+            </li>
+
+
+            <li id="menu-user" style="display:none;">
+                <a href="#" class="spa-link" data-page="/interface/user">
+                    <i class="menu-icon fa fa-shield"></i>
+                    <span class="menu-text"> Phân quyền hệ thống </span>
+                </a>
+            </li>
+        </ul>
+
+        <div style="padding: 12px 10px; border-top: 1px solid #3A3F51; margin-top: 10px;">
+            <a href="#" id="btn-logout" style="display:flex; align-items:center; padding: 9px 14px; color: #fff; text-decoration:none; background-color: #D15B47; border-radius: 4px; font-weight: 600; transition: background 0.2s;" onmouseover="this.style.backgroundColor='#B74635'" onmouseout="this.style.backgroundColor='#D15B47'">
+                <i class="menu-icon fa fa-sign-out" style="margin-right:8px; font-size:15px;"></i>
+                <span class="menu-text"> Đăng xuất </span>
+            </a>
+        </div>
+    </div>
+
+
+    <div class="main-content">
+        <div class="main-content-inner">
+
+            <div class="breadcrumbs ace-save-state" id="breadcrumbs">
+                <ul class="breadcrumb" id="breadcrumb-list">
+                    <li><i class="ace-icon fa fa-home home-icon"></i> <a href="#">Home</a></li>
+                    <li class="active" id="breadcrumb-current">Trang chủ</li>
+                </ul>
+            </div>
+
+
+            <div class="page-content" id="page-content-area">
+                <!-- Nội dung loading mặc định -->
+                <div class="center" style="margin-top: 50px;">
+                    <i class="fa fa-spinner fa-spin fa-3x fa-fw text-primary"></i>
+                    <h4 class="text-primary mt-2">Đang khởi tạo hệ thống...</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<script src="/assets/js/jquery-2.1.4.min.js"></script>
+<script src="/assets/js/bootstrap.min.js"></script>
+<script src="/assets/js/ace-elements.min.js"></script>
+<script src="/assets/js/ace.min.js"></script>
+
+
+<script>
+
+    window.spaParams = {};
+
+    $(document).ready(function() {
+        // 1. Kiểm tra đăng nhập (Chỉ cần kiểm tra 1 lần ở file index)
+        var token = localStorage.getItem("accessToken");
+        if (!token) {
+            alert("Bạn chưa đăng nhập. Vui lòng đăng nhập để tiếp tục!");
+            window.location.href = "/interface/login";
+            return;
+        }
+
+
+        var rolesString = localStorage.getItem("roles");
+        var roles = rolesString ? JSON.parse(rolesString) : [];
+        window.isAdmin = roles.includes("ROLE_ADMIN");
+        window.isManagerOrAdmin = window.isAdmin || roles.includes("ROLE_MANAGER");
+        window.isStaff = !window.isManagerOrAdmin;
+
+        if (window.isAdmin) {
+            $('#menu-user').show();
+        }
+        if (window.isStaff) {
+            $('#menu-dashboard').hide();
+        }
+
+        $.ajaxSetup({
+            headers: { "Authorization": "Bearer " + token },
+            error: function(jqXHR) {
+                if (jqXHR.status === 403 || jqXHR.status === 401) {
+                    alert("Phiên đăng nhập đã hết hạn!");
+                    localStorage.removeItem("accessToken");
+                    window.location.href = "/interface/login";
+                }
+            }
+        });
+
+
+        function loadPageContent(pageUrl, pageTitle, menuItem) {
+            var $contentArea = $('#page-content-area');
+
+
+            $('#main-menu li').removeClass('active');
+            if(menuItem) $(menuItem).closest('li').addClass('active');
+
+
+            if(pageTitle) $('#breadcrumb-current').text(pageTitle);
+
+
+            $contentArea.addClass('content-loading');
+
+
+            $.ajax({
+                url: pageUrl,
+                type: "GET",
+                dataType: "html",
+                success: function(response) {
+
+                    $contentArea.html(response);
+                    $contentArea.removeClass('content-loading');
+                },
+                error: function() {
+                    $contentArea.html('<h3 class="text-danger center mt-5"><i class="fa fa-warning"></i> Lỗi không tải được trang (' + pageUrl + ')</h3>');
+                    $contentArea.removeClass('content-loading');
+                }
+            });
+        }
+
+
+        $(document).on('click', '.spa-link', function(e) {
+            e.preventDefault();
+            var rawDataPage = $(this).attr('data-page');
+
+
+            window.spaParams = {};
+            var targetPage = rawDataPage;
+
+
+            if (rawDataPage && rawDataPage.indexOf('?') !== -1) {
+                var parts = rawDataPage.split('?');
+                targetPage = parts[0];
+                var paramString = parts[1];
+
+                var paramParts = paramString.split('=');
+                if(paramParts.length === 2 && paramParts[0] === 'id') {
+                    window.spaParams.id = paramParts[1];
+                }
+            }
+
+
+            if (window.spaParams.id) {
+                sessionStorage.setItem('spaCurrentId', window.spaParams.id);
+            } else {
+                sessionStorage.removeItem('spaCurrentId');
+            }
+
+
+            var title = $(this).find('.menu-text').text().trim();
+            if(!title) title = "Xử lý dữ liệu";
+
+            loadPageContent(targetPage, title, this);
+        });
+
+
+        if (window.isStaff) {
+            loadPageContent('Building.html', 'Quản lý tòa nhà', $('#main-menu li[id!="menu-dashboard"]:first a'));
+        } else {
+            loadPageContent('Dashboard.html', 'Trang chủ', $('#main-menu li:first-child a'));
+        }
+
+       
+        $('#btn-logout').click(function(e) {
+            e.preventDefault();
+            localStorage.removeItem("accessToken");
+            localStorage.removeItem("roles");
+            window.location.href = "/interface/login";
+        });
+    });
+</script>
+</body>
+</html>

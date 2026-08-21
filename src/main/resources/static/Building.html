@@ -1,0 +1,375 @@
+
+<div class="page-header">
+    <h1>
+        Danh sách tòa nhà
+        <small><i class="ace-icon fa fa-angle-double-right"></i> Tìm kiếm & Quản lý</small>
+    </h1>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+
+        <!-- FORM TÌM KIẾM -->
+        <div class="widget-box">
+            <div class="widget-header">
+                <h4 class="widget-title">Tìm kiếm</h4>
+                <div class="widget-toolbar">
+                    <a href="#" data-action="collapse"><i class="ace-icon fa fa-chevron-up"></i></a>
+                </div>
+            </div>
+
+            <div class="widget-body">
+                <div class="widget-main">
+                    <form id="formSearch" class="form-horizontal">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label for="name"><b>Tên tòa nhà</b></label>
+                                <input type="text" id="name" class="form-control" placeholder="Nhập tên tòa nhà...">
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="floorArea"><b>Diện tích sàn</b></label>
+                                <input type="number" id="floorArea" class="form-control" placeholder="Nhập diện tích sàn...">
+                            </div>
+                        </div>
+
+                        <div class="row" style="margin-top: 10px;">
+                            <div class="col-sm-2">
+                                <label for="districtId"><b>Quận</b></label>
+                                <select class="form-control" id="districtId">
+                                    <option value="">--Chọn Quận--</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-5">
+                                <label for="ward"><b>Phường</b></label>
+                                <input type="text" id="ward" class="form-control" placeholder="Nhập phường...">
+                            </div>
+                            <div class="col-sm-5">
+                                <label for="street"><b>Đường</b></label>
+                                <input type="text" id="street" class="form-control" placeholder="Nhập tên đường...">
+                            </div>
+                        </div>
+
+                        <div class="row" style="margin-top: 10px;">
+                            <div class="col-sm-4">
+                                <label for="numberOfBasement"><b>Số tầng hầm</b></label>
+                                <input type="number" id="numberOfBasement" class="form-control">
+                            </div>
+                            <div class="col-sm-4">
+                                <label for="direction"><b>Hướng</b></label>
+                                <input type="text" id="direction" class="form-control">
+                            </div>
+                            <div class="col-sm-4">
+                                <label for="level"><b>Hạng</b></label>
+                                <input type="text" id="level" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="row" style="margin-top: 10px;">
+                            <div class="col-sm-3">
+                                <label for="areaFrom"><b>Diện tích từ</b></label>
+                                <input type="number" id="areaFrom" class="form-control">
+                            </div>
+                            <div class="col-sm-3">
+                                <label for="areaTo"><b>Diện tích đến</b></label>
+                                <input type="number" id="areaTo" class="form-control">
+                            </div>
+                            <div class="col-sm-3">
+                                <label for="rentPriceFrom"><b>Giá thuê từ</b></label>
+                                <input type="number" id="rentPriceFrom" class="form-control">
+                            </div>
+                            <div class="col-sm-3">
+                                <label for="rentPriceTo"><b>Giá thuê đến</b></label>
+                                <input type="number" id="rentPriceTo" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="row" style="margin-top: 10px;">
+                            <div class="col-sm-4">
+                                <label for="managerName"><b>Tên quản lý</b></label>
+                                <input type="text" id="managerName" class="form-control">
+                            </div>
+                            <div class="col-sm-4">
+                                <label for="managerPhone"><b>SĐT quản lý</b></label>
+                                <input type="text" id="managerPhone" class="form-control">
+                            </div>
+                            <div class="col-sm-4">
+                                <label for="staffId"><b>Nhân viên phụ trách</b></label>
+                                <select id="staffId" class="form-control">
+                                    <option value="">--Chọn nhân viên--</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row" style="margin-top: 15px;">
+                            <div class="col-xs-12">
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" name="typeCode" value="NOI_THAT"><b>Nội thất</b>
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" name="typeCode" value="TANG_TRET"> <b>Tầng trệt</b>
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" name="typeCode" value="NGUYEN_CAN"> <b>Nguyên căn</b>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="row" style="margin-top: 20px;">
+                            <div class="col-xs-12 text-center">
+                                <button type="button" class="btn btn-primary btn-sm" id="btnSearchBuilding">
+                                    <i class="ace-icon fa fa-search"></i> Tìm kiếm
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="pull-right" style="margin-bottom: 10px;" id="btn-building-actions">
+                <button class="btn btn-info spa-link" data-page="/interface/insertbuilding">
+                    <i class="ace-icon fa fa-plus"></i> Thêm tòa nhà
+                </button>
+                <button class="btn btn-danger" title="Xóa nhiều tòa nhà" id="deleteallbuilding">
+                    <i class="ace-icon fa fa-trash"></i> Xóa
+                </button>
+            </div>
+        </div>
+
+        <!-- BẢNG DANH SÁCH -->
+        <div class="row">
+            <div class="col-xs-12">
+                <table id="simple-table" class="table table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th class="center" id="th-checkbox"></th>
+                        <th>Tên tòa nhà</th>
+                        <th>Địa chỉ</th>
+                        <th>Số tầng hầm</th>
+                        <th>Tên quản lý</th>
+                        <th>Số điện thoại quản lý</th>
+                        <th>Diện tích sàn</th>
+                        <th>Giá thuê</th>
+                        <th>Diện tích thuê</th>
+                        <th>Phí môi giới</th>
+                        <th>Hạng</th>
+                        <th>Hướng</th>
+                        <th id="th-action">Thao tác</th>
+                    </tr>
+                    </thead>
+                    <tbody id="buildingListBody">
+                    <tr><td colspan="13" class="center">Đang tải dữ liệu...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Modal Giao Tòa Nhà -->
+<div class="modal fade" role="dialog" id="assignmentBuildingModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 style="color:rgb(0, 140, 255);" class="center">Danh sách nhân viên</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" id="assignmentBuildingForm" name="assignmentBuildingForm">
+                    <table id="staff-table" class="table table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th class="center">
+                                <label class="pos-rel">
+                                    <input id="checkstaffAll" type="checkbox" class="ace">
+                                    <span class="lbl"></span>
+                                </label>
+                            </th>
+                            <th class="center">Tên nhân viên</th>
+                        </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                    <input type="hidden" id="idBuilding" name="idBuilding" >
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info" id="handover" name="handover">Giao</button>
+                <button type="button" class="btn btn-danger" style="margin:10px" id="cancel" name="cancel" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var API_URL = "http://localhost:8082/api/building/";
+    var API_URL_BU = "http://localhost:8082/api/buildinguser/";
+    var DISTRICT_API_URL = "http://localhost:8082/api/district";
+    var STAFF_API_URL = "http://localhost:8082/api/staff/";
+
+    // Ẩn cột checkbox và cột thao tác nếu là STAFF
+    if (!window.isManagerOrAdmin) {
+        $('#btn-building-actions').hide();
+        $('#th-checkbox').hide();
+        $('#th-action').hide();
+    }
+
+    function loadDistricts() {
+        $.ajax({
+            type: "GET", url: DISTRICT_API_URL, dataType: "json",
+            success: function(response) {
+                var html = '<option value="">--Chọn Quận--</option>';
+                $.each(response, function(index, item) {
+                    html += '<option value="' + item.idDistrict + '">' + item.districtName + '</option>';
+                });
+                $('#districtId').html(html);
+            }
+        });
+    }
+
+    function loadStaffs() {
+        $.ajax({
+            type: "GET", url: STAFF_API_URL, dataType: "json",
+            success: function(response) {
+                var selectHtml = '<option value="">--Chọn nhân viên--</option>';
+                var tableHtml = '';
+                $.each(response, function(index, item) {
+                    selectHtml += '<option value="' + item.id + '">' + item.userName + '</option>';
+                    if (window.isManagerOrAdmin) {
+                        tableHtml += '<tr><td class="center"><label class="pos-rel"><input type="checkbox" class="ace" value="' + item.id + '"><span class="lbl"></span></label></td>';
+                        tableHtml += '<td class="center">' + item.userName + '</td></tr>';
+                    }
+                });
+                $('#staffId').html(selectHtml);
+                if (window.isManagerOrAdmin) $('#staff-table tbody').html(tableHtml);
+            }
+        });
+    }
+
+    function loadBuildingData() {
+        var searchData = {
+            buildingname: $('#name').val(),
+            floorarea: $('#floorArea').val(),
+            iddistrict: $('#districtId').val(),
+            ward: $('#ward').val(),
+            way: $('#street').val(),
+            numberofbasement: $('#numberOfBasement').val(),
+            direction: $('#direction').val(),
+            class: $('#level').val(),
+            areafrom: $('#areaFrom').val(),
+            areato: $('#areaTo').val(),
+            rentfrom: $('#rentPriceFrom').val(),
+            rentto: $('#rentPriceTo').val(),
+            managername: $('#managerName').val(),
+            managerphone: $('#managerPhone').val(),
+            iduser: $('#staffId').val(),
+            buildingtype: []
+        };
+
+        $('input[name="typeCode"]:checked').each(function() {
+            searchData.buildingtype.push($(this).val());
+        });
+
+        $.ajax({
+            type: "GET", url: API_URL, data: searchData, dataType: "json", traditional: true,
+            success: function(response) {
+                var html = '';
+                $.each(response, function(index, item) {
+                    html += '<tr>';
+                    if (window.isManagerOrAdmin) {
+                        html += '<td class="center"><label class="pos-rel"><input type="checkbox" class="ace" value="' + item.idBuilding + '" /><span class="lbl"></span></label></td>';
+                    }
+                    html += '<td>' + item.buildingName + '</td>';
+                    html += '<td>' + item.address + '</td>';
+                    html += '<td class="center">' + (item.numberOfBasement || 0) + '</td>';
+                    html += '<td>' + (item.managerName || '') + '</td>';
+                    html += '<td>' + (item.managerPhone || '') + '</td>';
+                    html += '<td>' + (item.floorArea || '') + '</td>';
+                    html += '<td>' + (item.rent || '') + '</td>';
+                    html += '<td>' + (item.rentArea || '') + '</td>';
+                    html += '<td>' + (item.brokerageFee || '') + '</td>';
+                    html += '<td>' + (item.class1 || '') + '</td>';
+                    html += '<td>' + (item.direction || '') + '</td>';
+                    if (window.isManagerOrAdmin) {
+                        html += '<td class="center"><div class="hidden-sm hidden-xs action-buttons">';
+                        html += '<button class="btn btn-xs btn-success" onclick="openAssignmentModal(' + item.idBuilding + ')" title="Giao tòa nhà"><i class="ace-icon fa fa-users bigger-120"></i></button>';
+                        html += '<button class="btn btn-xs btn-info spa-link" data-page="/interface/updatebuilding?id=' + item.idBuilding + '" title="Sửa"><i class="ace-icon fa fa-pencil bigger-120"></i></button>';
+                        html += '<button class="btn btn-xs btn-danger" onclick="deleteBuilding(' + item.idBuilding + ')" title="Xóa"><i class="ace-icon fa fa-trash-o bigger-120"></i></button>';
+                        html += '</div></td>';
+                    }
+                    html += '</tr>';
+                });
+                $('#buildingListBody').html(html);
+            },
+            error: function(err) {
+                alert("Lỗi khi tải dữ liệu! Vui lòng kiểm tra Server.");
+            }
+        });
+    }
+
+    loadDistricts();
+    loadStaffs();
+    loadBuildingData();
+
+    $('#btnSearchBuilding').off('click').on('click', function(e) {
+        e.preventDefault();
+        loadBuildingData();
+    });
+
+    $('#checkAll').off('click').on('click', function() {
+        $('#simple-table input:checkbox').not(this).prop('checked', this.checked);
+    });
+
+    $('#checkstaffAll').off('click').on('click', function() {
+        $('#assignmentBuildingForm input:checkbox').not(this).prop('checked', this.checked);
+    });
+
+    window.deleteBuilding = function(id) { deleteBuildings([id]); }
+
+    $('#deleteallbuilding').off('click').on('click', function(e) {
+        e.preventDefault();
+        var ids = $('#buildingListBody').find('input[type=checkbox]:checked').map(function() {
+            return $(this).val();
+        }).get();
+        if (ids.length === 0) { alert("Vui lòng chọn ít nhất một tòa nhà để xóa!"); return; }
+        deleteBuildings(ids);
+    });
+
+    function deleteBuildings(ids) {
+        if (confirm("Bạn có chắc chắn muốn xóa tòa nhà này không?")) {
+            $.ajax({
+                type: "DELETE", url: API_URL + ids, contentType: "application/json",
+                success: function() { alert("Xóa thành công!"); loadBuildingData(); },
+                error: function() { alert("Xóa thất bại!"); }
+            });
+        }
+    }
+
+    window.openAssignmentModal = function(idbuilding) {
+        $('#idBuilding').val(idbuilding);
+        $('#assignmentBuildingForm input[type=checkbox]').prop('checked', false);
+        $.ajax({
+            type: "GET", url: API_URL_BU + idbuilding, dataType: "json",
+            success: function(response) {
+                $.each(response, function(index, staffId) {
+                    $('#assignmentBuildingForm input[type=checkbox][value="' + staffId + '"]').prop('checked', true);
+                });
+                $('#assignmentBuildingModal').modal('show');
+            },
+            error: function() { $('#assignmentBuildingModal').modal('show'); }
+        });
+    }
+
+    $('#handover').off('click').on('click', function(e) {
+        e.preventDefault();
+        var buildingId = $('#idBuilding').val();
+        var staffIds = $('#assignmentBuildingForm').find('tbody input[type=checkbox]:checked').map(function() {
+            return parseInt($(this).val());
+        }).get();
+        $.ajax({
+            type: "POST", url: API_URL_BU, data: JSON.stringify({ "idBuilding": buildingId, "idUser": staffIds }),
+            contentType: "application/json",
+            success: function() { alert("Giao tòa nhà thành công!"); $('#assignmentBuildingModal').modal('hide'); },
+            error: function() { alert("Giao tòa nhà thất bại!"); }
+        });
+    });
+</script>

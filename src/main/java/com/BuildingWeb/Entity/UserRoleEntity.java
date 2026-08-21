@@ -1,6 +1,6 @@
 package com.BuildingWeb.Entity;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name="userrole")
@@ -8,36 +8,35 @@ public class UserRoleEntity {
 @Id
 @GeneratedValue(strategy = GenerationType.IDENTITY)
 @Column(name="IdUserRole")
-    private int IdUserRole;
+    private int idUserRole;
 @ManyToOne(fetch = FetchType.LAZY)
 @JoinColumn(name="IdUser")
-private UserEntity User;
+private UserEntity user;
 @ManyToOne(fetch = FetchType.LAZY)
 @JoinColumn(name="IdRole")
-private RoleEntity Role;
-    public RoleEntity getRole() {
-        return Role;
-    }
-
-    public void setRole(RoleEntity role) {
-        Role = role;
-    }
-
-    public UserEntity getUser() {
-        return User;
-    }
-
-    public void setUser(UserEntity user) {
-        User = user;
-    }
+private RoleEntity role;
 
     public int getIdUserRole() {
-        return IdUserRole;
+        return idUserRole;
     }
 
     public void setIdUserRole(int idUserRole) {
-        IdUserRole = idUserRole;
+        this.idUserRole = idUserRole;
     }
 
+    public UserEntity getUser() {
+        return user;
+    }
 
+    public void setUser(UserEntity user) {
+        this.user = user;
+    }
+
+    public RoleEntity getRole() {
+        return role;
+    }
+
+    public void setRole(RoleEntity role) {
+        this.role = role;
+    }
 }

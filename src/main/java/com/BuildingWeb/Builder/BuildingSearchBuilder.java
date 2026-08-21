@@ -9,12 +9,14 @@ public class BuildingSearchBuilder {
 	private Integer FloorArea;
 	private String ManagerName;
 	private String ManagerPhone;
-	private String DistrictName;
+	private Integer IdDistrict;
 	private Integer AreaFrom;
 	private Integer AreaTo;
 	private Integer RentFrom;
 	private Integer RentTo;
-	private String UserName;
+	private Integer IdUser;
+    private String Direction;
+    private String Class;
 	private List<String> TypeCode;
 	
 	private BuildingSearchBuilder(Builder builder) {
@@ -25,16 +27,24 @@ public class BuildingSearchBuilder {
 	 FloorArea=builder.FloorArea;
 	 ManagerName=builder.ManagerName;
 	 ManagerPhone=builder.ManagerPhone;
-	 DistrictName=builder.DistrictName;
+	 IdDistrict=builder.IdDistrict;
 	 AreaFrom=builder.AreaFrom;
 	 AreaTo=builder.AreaTo;
 	 RentFrom=builder.RentFrom;
 	 RentTo=builder.RentTo;
-	 UserName=builder.UserName;
+	 IdUser=builder.IdUser;
+     Direction=builder.Direction;
+     Class=builder.Class;
 	 TypeCode=builder.TypeCode;
 		
 	}
-	
+    public String getDirection() {
+        return Direction;
+    }
+
+    public String getclass() {
+        return Class;
+    }
 
 	public String getBuildingName() {
 		return BuildingName;
@@ -71,8 +81,8 @@ public class BuildingSearchBuilder {
 	}
 
 
-	public String getDistrictName() {
-		return DistrictName;
+	public Integer getIdDistrict() {
+		return IdDistrict;
 	}
 
 
@@ -96,8 +106,8 @@ public class BuildingSearchBuilder {
 	}
 
 
-	public String getUserName() {
-		return UserName;
+	public Integer getIdUser() {
+		return IdUser;
 	}
 
 
@@ -114,13 +124,23 @@ public class BuildingSearchBuilder {
 		private Integer FloorArea;
 		private String ManagerName;
 		private String ManagerPhone;
-		private String DistrictName;
+		private Integer IdDistrict;
 		private Integer AreaFrom;
 		private Integer AreaTo;
 		private Integer RentFrom;
 		private Integer RentTo;
-		private String UserName;
+        private String Direction;
+        private String Class;
+		private Integer IdUser;
 		private List<String> TypeCode;
+        public Builder setDirection(String direction) {
+            Direction = direction;
+            return this;
+        }
+        public Builder setClass(String class1) {
+            Class = class1;
+            return this;
+        }
 		public Builder setBuildingName(String buildingName) {
 			BuildingName = buildingName;
 			return this;
@@ -149,8 +169,8 @@ public class BuildingSearchBuilder {
 			ManagerPhone = managerPhone;
 			return this;
 		}
-		public Builder setDistrictName(String districtName) {
-			DistrictName = districtName;
+		public Builder setIdDistrict(Integer idDistrict) {
+			IdDistrict = idDistrict;
 			return this;
 		}
 		public Builder setAreaFrom(Integer areaFrom) {
@@ -169,8 +189,8 @@ public class BuildingSearchBuilder {
 			RentTo = rentTo;
 			return this;
 		}
-		public Builder setUserName(String userName) {
-			UserName = userName;
+		public Builder setIdUser(Integer Iduser) {
+			IdUser = Iduser;
 			return this;
 		}
 		public Builder setTypeCode(List<String> typeCode) {

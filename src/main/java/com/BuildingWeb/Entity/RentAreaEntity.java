@@ -1,13 +1,6 @@
 package com.BuildingWeb.Entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name="rentarea")
@@ -15,30 +8,37 @@ public class RentAreaEntity {
 @Id
 @GeneratedValue(strategy=GenerationType.IDENTITY)
 @Column(name="IdRentArea")
-private int IdRentArea;
+private Integer idRentArea;
 @Column(name="Area")
-private int Area;
+private Integer area;
 @ManyToOne
 @JoinColumn(name="IdBuilding")
-private BuildingEntity Building;
-public int getIdRentArea() {
-	return IdRentArea;
-}
-public void setIdRentArea(int idRentArea) {
-	IdRentArea = idRentArea;
-}
-public int getArea() {
-	return Area;
-}
-public void setArea(int area) {
-	Area = area;
-}
-public BuildingEntity getBuilding() {
-	return Building;
-}
-public void setBuilding(BuildingEntity building) {
-	Building = building;
-}
+private BuildingEntity building;
+
+    public Integer getIdRentArea() {
+        return idRentArea;
+    }
+
+    public void setIdRentArea(Integer idRentArea) {
+        this.idRentArea = idRentArea;
+    }
+
+    public Integer getArea() {
+        return area;
+    }
+
+    public void setArea(Integer area) {
+        this.area = area;
+    }
+
+    public BuildingEntity getBuilding() {
+        return building;
+    }
+
+    public void setBuilding(BuildingEntity building) {
+        this.building = building;
+    }
+
 
 }
 

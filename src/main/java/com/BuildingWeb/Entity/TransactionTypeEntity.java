@@ -1,6 +1,6 @@
 package com.BuildingWeb.Entity;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,38 +10,38 @@ public class TransactionTypeEntity {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name="IdTransactionType")
-private int IdTransactionType;
+private Long idTransactionType;
     @Column(name="Code")
-private String Code;
-    @Column(name="TransactionType")
-private String TransactionTypeName;
+private String code;
+    @Column(name="TransactionTypeName")
+private String transactionTypeName;
     @ManyToOne
     @JoinColumn(name = "IdTransaction")
-private TransactionEntity Transaction;
-public int getIdTransactionType() {
-	return IdTransactionType;
+private TransactionEntity transaction;
+public Long getIdTransactionType() {
+	return idTransactionType;
 }
-public void setIdTransactionType(int idTransactionType) {
-	IdTransactionType = idTransactionType;
+public void setIdTransactionType(Long idTransactionType) {
+	this.idTransactionType = idTransactionType;
 }
 public String getCode() {
-	return Code;
+	return code;
 }
 public void setCode(String code) {
-	Code = code;
+	this.code = code;
 }
 public String getTransactionTypeName() {
-	return TransactionTypeName;
+	return transactionTypeName;
 }
 public void setTransactionTypeName(String transactionTypeName) {
-	TransactionTypeName = transactionTypeName;
+	this.transactionTypeName = transactionTypeName;
 }
 
     public TransactionEntity getTransaction() {
-        return Transaction;
+        return transaction;
     }
 
     public void setTransaction(TransactionEntity transaction) {
-        Transaction = transaction;
+        this.transaction = transaction;
     }
 }

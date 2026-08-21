@@ -1,0 +1,183 @@
+<!-- BẮT ĐẦU TỪ BREADCRUMB -->
+<div class="page-header">
+    <h1>Lịch sử Giao dịch <small><i class="ace-icon fa fa-angle-double-right"></i> Giám sát hoạt động</small></h1>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+
+        <!-- FORM TÌM KIẾM 3 TRƯỜNG -->
+        <div class="row" style="margin-bottom: 15px;">
+            <div class="col-xs-12">
+                <div class="widget-box">
+                    <div class="widget-header">
+                        <h4 class="widget-title">Bộ lọc tìm kiếm</h4>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main">
+                            <form id="formSearchTransaction" class="form-horizontal">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <label><b>Tên khách hàng</b></label>
+                                        <input type="text" id="searchCustomerName" class="form-control" placeholder="Nhập tên khách...">
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <label><b>Tên nhân viên</b></label>
+                                        <input type="text" id="searchUserName" class="form-control" placeholder="Nhập username...">
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <label><b>Loại giao dịch</b></label>
+                                        <select class="form-control" id="searchCode">
+                                            <option value="">--- Tất cả ---</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-3" style="margin-top: 25px;">
+                                        <button type="button" class="btn btn-sm btn-primary" id="btnSearchTransaction">
+                                            <i class="ace-icon fa fa-search"></i> Lọc dữ liệu
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- BẢNG DANH SÁCH LỊCH SỬ -->
+        <div class="row">
+            <div class="col-xs-12">
+                <table id="transactionListTable" class="table table-bordered table-striped table-hover">
+                    <thead>
+                    <tr>
+                        <th style="width: 50px;" class="center">STT</th>
+                        <th style="width: 150px;">Ngày thực hiện</th>
+                        <th style="width: 150px;">Nhân viên (User)</th>
+                        <th style="width: 200px;">Khách hàng</th>
+                        <th style="width: 150px;" class="center">Phân loại</th>
+                        <th>Nội dung chi tiết (Note)</th>
+                    </tr>
+                    </thead>
+                    <tbody id="transactionListBody">
+                    <tr><td colspan="6" class="center">Đang tải dữ liệu...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- ============================================== -->
+<!-- SCRIPT RIÊNG CỦA TRANG LỊCH SỬ GIAO DỊCH (SPA) -->
+<!-- ============================================== -->
+<script>
+    // 1. ĐỊNH NGHĨA BIẾN HẰNG
+    var TRANSACTION_API_URL = "http://localhost:8082/api/transaction";
+    var TRANSACTION_TYPE_API_URL = "http://localhost:8082/api/transactiontype";
+
+    // 2. HÀM LOAD LOẠI GIAO DỊCH VÀO SELECT
+    function loadSearchTransactionTypes() {
+        $.ajax({
+            type: "GET",
+            url: TRANSACTION_TYPE_API_URL,
+            dataType: "json",
+            success: function(response) {
+                var typeList = response.data ? response.data : [];
+                var html = '<option value="">--- Tất cả ---</option>';
+                var uniqueCodes = [];
+
+                $.each(typeList, function(index, typeItem) {
+                    if (!uniqueCodes.includes(typeItem.code)) {
+                        uniqueCodes.push(typeItem.code);
+                        html += '<option value="' + typeItem.code + '">' + typeItem.transactionTypeName + '</option>';
+                    }
+                });
+
+                $('#searchCode').html(html);
+            },
+            error: function() {
+                console.log("Không tải được danh mục Loại giao dịch");
+            }
+        });
+    }
+
+    // 3. HÀM LOAD DANH SÁCH GIAO DỊCH
+    function loadTransactions() {
+        var customerNameVal = $('#searchCustomerName').val().trim();
+        var userNameVal = $('#searchUserName').val().trim();
+        var codeVal = $('#searchCode').val();
+
+        $.ajax({
+            type: "GET",
+            url: TRANSACTION_API_URL,
+            data: {
+                customerName: customerNameVal,
+                userName: userNameVal,
+                code: codeVal
+            },
+            dataType: "json",
+            success: function(response) {
+                var html = '';
+                var stt = 1;
+                var transList = response.data ? response.data : [];
+
+                if (transList.length === 0) {
+                    html = '<tr><td colspan="6" class="center">Không tìm thấy giao dịch nào phù hợp.</td></tr>';
+                } else {
+                    // Sắp xếp ngày mới nhất lên đầu
+                    transList.sort(function(a, b) {
+                        return new Date(b.createdDate) - new Date(a.createdDate);
+                    });
+
+                    $.each(transList, function(index, item) {
+                        var dateStr = "";
+                        if (item.createdDate) {
+                            var dateObj = new Date(item.createdDate);
+                            dateStr = dateObj.toLocaleDateString('vi-VN') + " " + dateObj.toLocaleTimeString('vi-VN');
+                        }
+
+                        // XỬ LÝ ĐA NHÃN MÀU
+                        var codeLabel = "";
+                        if (item.transactionTypeName) {
+                            var codesArray = Array.isArray(item.transactionTypeName) ? item.transactionTypeName : item.transactionTypeName.split(",");
+
+                            $.each(codesArray, function(i, singleCode) {
+                                var cleanCode = singleCode.toString().trim();
+                                if (cleanCode) {
+                                    codeLabel += '<span class="label label-info arrowed-in-right arrowed" style="margin-right: 4px; display: inline-block; margin-bottom: 2px;">' + cleanCode + '</span>';
+                                }
+                            });
+                        } else {
+                            codeLabel = '<span class="label label-default">N/A</span>';
+                        }
+
+                        html += '<tr>';
+                        html += '<td class="center">' + (stt++) + '</td>';
+                        html += '<td class="center">' + dateStr + '</td>';
+                        html += '<td><b><i class="fa fa-user text-muted"></i> ' + (item.user || 'N/A') + '</b></td>';
+                        html += '<td>' + (item.customer || 'N/A') + '</td>';
+                        html += '<td class="center">' + codeLabel + '</td>';
+                        html += '<td>' + (item.note || '') + '</td>';
+                        html += '</tr>';
+                    });
+                }
+                $('#transactionListBody').html(html);
+            },
+            error: function() {
+                $('#transactionListBody').html('<tr><td colspan="6" class="center text-danger">Lỗi kết nối máy chủ!</td></tr>');
+            }
+        });
+    }
+
+    // 4. GẮN SỰ KIỆN NÚT BẤM
+    $('#btnSearchTransaction').off('click').on('click', function(e) {
+        e.preventDefault();
+        loadTransactions();
+    });
+
+    // 5. KHỞI CHẠY LẦN ĐẦU
+    loadSearchTransactionTypes();
+    loadTransactions();
+
+</script>

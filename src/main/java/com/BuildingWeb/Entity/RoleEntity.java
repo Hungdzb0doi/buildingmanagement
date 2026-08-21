@@ -1,6 +1,6 @@
 package com.BuildingWeb.Entity;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,31 +10,37 @@ public class RoleEntity {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name="IdRole")
-private int IdRole;
+private int idRole;
     @Column(name="Code")
-private String Code;
+private String code;
     @Column(name="RoleName")
-private String RoleName;
-    @OneToMany(mappedBy = "Role", fetch = FetchType.LAZY)
+private String roleName;
+    @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
 private List<UserRoleEntity> UserRole=new ArrayList<UserRoleEntity>();
-public int getIdRole() {
-	return IdRole;
-}
-public void setIdRole(int idRole) {
-	IdRole = idRole;
-}
-public String getCode() {
-	return Code;
-}
-public void setCode(String code) {
-	Code = code;
-}
-public String getRoleName() {
-	return RoleName;
-}
-public void setRoleName(String roleName) {
-	RoleName = roleName;
-}
+
+    public int getIdRole() {
+        return idRole;
+    }
+
+    public void setIdRole(int idRole) {
+        this.idRole = idRole;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
+    }
 
     public List<UserRoleEntity> getUserRole() {
         return UserRole;

@@ -1,7 +1,8 @@
 package com.BuildingWeb.Entity;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -10,52 +11,63 @@ public class TransactionEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="IdTransaction")
-private int IdTransaction;
+private Long idTransaction;
     @ManyToOne
     @JoinColumn(name = "IdUser")
-private UserEntity User;
+private UserEntity user;
     @ManyToOne
     @JoinColumn(name = "IdCustomer")
-private CustomerEntity Customer;
-    @OneToMany(mappedBy = "Transaction",fetch = FetchType.LAZY)
-private List<TransactionTypeEntity> TransactionType=new ArrayList<>();
+private CustomerEntity customer;
+    @OneToMany(mappedBy = "transaction",fetch = FetchType.LAZY)
+private List<TransactionTypeEntity> transactionType=new ArrayList<>();
     @Column(name="Note")
-private String  Note;
-public int getIdTransaction() {
-	return IdTransaction;
+private String  note;
+    @Column(name="CreatedDate")
+    private Date createdDate=new Date();
+
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public Long getIdTransaction() {
+	return idTransaction;
 }
-public void setIdTransaction(int idTransaction) {
-	IdTransaction = idTransaction;
+public void setIdTransaction(Long idTransaction) {
+	this.idTransaction = idTransaction;
 }
 
     public UserEntity getUser() {
-        return User;
+        return user;
     }
 
     public void setUser(UserEntity user) {
-        User = user;
+        this.user = user;
     }
 
     public CustomerEntity getCustomer() {
-        return Customer;
+        return customer;
     }
 
     public void setCustomer(CustomerEntity customer) {
-        Customer = customer;
+        this.customer = customer;
     }
 
     public List<TransactionTypeEntity> getTransactionType() {
-        return TransactionType;
+        return transactionType;
     }
 
     public void setTransactionType(List<TransactionTypeEntity> transactionType) {
-        TransactionType = transactionType;
+        this.transactionType = transactionType;
     }
 
     public String getNote() {
-	return Note;
+	return note;
 }
 public void setNote(String note) {
-	Note = note;
+	this.note = note;
 }
 }

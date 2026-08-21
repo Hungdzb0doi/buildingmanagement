@@ -3,8 +3,9 @@ package com.BuildingWeb.Service;
 import java.util.HashMap;
 import java.util.List;
 
-import com.BuildingWeb.DTO.BuildingDTO;
-import com.BuildingWeb.DTO.RequestBuildingDTO;
+import com.BuildingWeb.DTO.response.BuildingDTO;
+import com.BuildingWeb.DTO.request.RequestBuildingDTO;
+import com.BuildingWeb.DTO.response.BuildingStatisticDTO;
 
 
 public interface BuildingService {
@@ -13,4 +14,6 @@ void InsertBuilding(RequestBuildingDTO requestbuildingdto);
 void UpdateBuilding(RequestBuildingDTO requestbuildingdto);
 void DeleteBuilding(Long id);
 void DeleteBuildings(Long[] id);
+RequestBuildingDTO FindById(Long Id);
+List<BuildingStatisticDTO> getAvailableAreaStatistic();
 }

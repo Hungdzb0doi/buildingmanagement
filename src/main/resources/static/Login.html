@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta charset="utf-8" />
+    <title>Đăng nhập - CRM Building Management</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="/assets/css/ace.min.css" class="ace-main-stylesheet" id="main-ace-style" />
+    <link rel="stylesheet" href="/assets/css/ace-skins.min.css" />
+    <link rel="stylesheet" href="/assets/css/ace-rtl.min.css" />
+
+    <style>
+        :root {
+            /* Đồng bộ tông màu xanh Pastel của hệ thống CRM */
+            --primary-blue: #438EB9;
+            --primary-blue-hover: #3276B1;
+            --text-dark: #393939;
+        }
+
+        /* Toàn bộ chữ mỏng và thanh thoát */
+        body {
+            font-family: 'Inter', sans-serif !important;
+            font-weight: 300 !important;
+            background-color: #F2F2F2 !important; /* Màu nền xám nhạt đồng bộ hệ thống */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 400px;
+            padding: 15px;
+        }
+
+        .login-box {
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); /* Đổ bóng nhẹ nhàng đồng bộ */
+            border: 1px solid #E5E5E5;
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .login-header h2 {
+            font-weight: 500 !important;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+        }
+
+        .login-header p {
+            color: #707070;
+            font-size: 14px;
+        }
+
+        label {
+            font-weight: 500 !important;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .form-control {
+            border-radius: 6px !important;
+            height: 42px !important;
+            border: 1px solid #D5D5D5 !important;
+            padding-left: 15px !important;
+            font-weight: 400 !important;
+            transition: all 0.3s ease;
+            color: var(--text-dark) !important;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-blue) !important;
+            box-shadow: 0 0 0 3px rgba(67, 142, 185, 0.15) !important;
+        }
+
+        .btn-login {
+            width: 100%;
+            height: 42px;
+            background-color: var(--primary-blue) !important; /* Đổi nút sang màu xanh CRM */
+            border: none !important;
+            border-radius: 6px !important;
+            color: white !important;
+            font-weight: 500 !important;
+            margin-top: 20px;
+            text-shadow: 0 -1px 0 rgba(0,0,0,0.2) !important;
+            transition: all 0.2s ease;
+        }
+
+        .btn-login:hover {
+            background-color: var(--primary-blue-hover) !important;
+        }
+
+        .footer-link {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 13px;
+            color: #707070;
+        }
+
+        .footer-link a, .text-right a {
+            color: var(--primary-blue);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .footer-link a:hover, .text-right a:hover {
+            color: var(--primary-blue-hover);
+            text-decoration: underline;
+        }
+
+        /* Loại bỏ các đường kẻ mặc định của Ace Admin */
+        .login-box .widget-main { background: none; }
+    </style>
+</head>
+
+<body class="login-layout light-login">
+<div class="login-container">
+    <div class="login-box">
+        <div class="login-header">
+
+            <i class="fa fa-building fa-3x" style="color: #438EB9;"></i>
+            <h2>Chào mừng trở lại</h2>
+            <p>Vui lòng đăng nhập để quản lý hệ thống</p>
+        </div>
+
+        <form id="form-login">
+            <div class="form-group">
+                <label>Tên đăng nhập</label>
+                <input type="text" id="username" class="form-control" placeholder="Tên đăng nhập..." required>
+            </div>
+
+            <div class="form-group" style="margin-top: 15px;">
+                <label>Mật khẩu</label>
+                <div style="position: relative;">
+                    <input type="password" id="password" class="form-control" placeholder="••••••••" required>
+                    <i class="fa fa-eye" id="togglePassword" style="position: absolute; right: 15px; top: 13px; cursor: pointer; color: #ABBAC3;"></i>
+                </div>
+            </div>
+
+            <div class="row" style="margin-top: 15px;">
+                <div class="col-xs-6">
+                    <label class="inline" style="font-size: 13px;">
+                        <input type="checkbox" class="ace" />
+                        <span class="lbl" style="color: #707070;"> Ghi nhớ</span>
+                    </label>
+                </div>
+                <div class="col-xs-6 text-right">
+                    <a href="#" style="font-size: 13px;">Quên mật khẩu?</a>
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-login" id="btnLogin">
+                Đăng nhập
+            </button>
+        </form>
+
+        <div class="footer-link">
+
+            Bạn chưa có tài khoản? <a href="/interface/register">Đăng ký ngay</a>
+        </div>
+    </div>
+</div>
+
+<script src="/assets/js/jquery-2.1.4.min.js"></script>
+<script src="/assets/js/bootstrap.min.js"></script>
+<script src="/assets/js/ace-elements.min.js"></script>
+<script src="/assets/js/ace.min.js"></script>
+<script>
+    $(document).ready(function() {
+        //  Hiệu ứng ẩn/hiện mật khẩu
+        $('#togglePassword').click(function() {
+            const passwordField = $('#password');
+            const type = passwordField.attr('type') === 'password' ? 'text' : 'password';
+            passwordField.attr('type', type);
+            $(this).toggleClass('fa-eye fa-eye-slash');
+        });
+
+
+        $('#btnLogin').click(function(e) {
+            e.preventDefault();
+
+            var loginData = {
+                username: $('#username').val(),
+                password: $('#password').val()
+            };
+
+            if(!loginData.username || !loginData.password) {
+                alert("Vui lòng nhập đầy đủ thông tin!");
+                return;
+            }
+
+
+            const btn = $(this);
+            const originalText = btn.text();
+            btn.text("Đang xử lý...").prop("disabled", true);
+
+            $.ajax({
+                type: 'POST',
+                url: 'http://localhost:8082/api/auth/login',
+                data: JSON.stringify(loginData),
+                contentType: 'application/json',
+                success: function(response) {
+
+                    if (response.code === 200) {
+
+                        localStorage.setItem("accessToken", response.data.token);
+                        localStorage.setItem("roles", JSON.stringify(response.data.roles));
+
+                        alert("Đăng nhập thành công!");
+
+                        window.location.href = "/";
+                    } else {
+                        btn.text(originalText).prop("disabled", false);
+                        alert("Lỗi từ server: " + response.message);
+                    }
+                },
+                error: function(err) {
+                    btn.text(originalText).prop("disabled", false);
+                    console.log(err);
+                    alert("Sai tên đăng nhập hoặc mật khẩu!");
+                }
+            });
+        });
+
+        //  Cho phép bấm phím Enter để đăng nhập
+        $('#password, #username').keypress(function(e){
+            if(e.which == 13){
+                $('#btnLogin').click();
+            }
+        });
+    });
+</script>
+</body>
+</html>

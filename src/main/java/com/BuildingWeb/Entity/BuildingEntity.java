@@ -2,7 +2,7 @@ package com.BuildingWeb.Entity;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name="building")
@@ -87,18 +87,18 @@ public class BuildingEntity {
 
     @ManyToOne
     @JoinColumn(name="IdDistrict")
-    private DistrictEntity District;
+    private DistrictEntity district;
 
-    @OneToMany(mappedBy="Building", fetch=FetchType.LAZY)
+    @OneToMany(mappedBy="building", fetch=FetchType.LAZY)
     private List<RentAreaEntity> rentArea = new ArrayList<>();
 
-    @OneToMany(mappedBy="Building", fetch=FetchType.LAZY)
+    @OneToMany(mappedBy="building", fetch=FetchType.LAZY)
     private List<BuildingUserEntity> buildingUser = new ArrayList<>();
 
-    @OneToMany(mappedBy="Building", fetch=FetchType.LAZY)
+    @OneToMany(mappedBy="building", fetch=FetchType.LAZY)
     private List<BuildingTypeEntity> buildingType = new ArrayList<>();
 
-    // Getter & Setter
+
     public Long getIdBuilding() { return idBuilding; }
     public void setIdBuilding(Long idBuilding) { this.idBuilding = idBuilding; }
 
@@ -174,8 +174,8 @@ public class BuildingEntity {
     public String getNote() { return note; }
     public void setNote(String note) { this.note = note; }
 
-    public DistrictEntity getDistrict() { return District; }
-    public void setDistrict(DistrictEntity district) { this.District = district; }
+    public DistrictEntity getDistrict() { return district; }
+    public void setDistrict(DistrictEntity district) { this.district = district; }
 
     public List<RentAreaEntity> getRentArea() { return rentArea; }
     public void setRentArea(List<RentAreaEntity> rentArea) { this.rentArea = rentArea; }

@@ -1,7 +1,8 @@
-package com.BuildingWeb.DTO;
+package com.BuildingWeb.DTO.response;
 
 
 public class BuildingDTO {
+    private long IdBuilding;
 private String BuildingName;
 private String Address;
 private int NumberOfBasement;
@@ -9,10 +10,29 @@ private String ManagerName;
 private String ManagerPhone;
 private int FloorArea;
 private String RentArea;
-private int EmptyArea;
-private int Rent;
+private String Direction;
 private String ServiceFee;
 private String BrokerageFee;
+private String Class1;
+private int Rent;
+    public String getDirection() {
+        return Direction;
+    }
+
+    public void setDirection(String direction) {
+        Direction = direction;
+    }
+
+    public String getClass1() {
+        return Class1;
+    }
+
+    public void setClass1(String class1) {
+        Class1 = class1;
+    }
+
+
+
 public String getBuildingName() {
 	return BuildingName;
 }
@@ -57,12 +77,7 @@ public void setFloorArea(int floorArea) {
 	FloorArea = floorArea;
 }
 
-public int getEmptyArea() {
-	return EmptyArea;
-}
-public void setEmptyArea(int emptyArea) {
-	EmptyArea = emptyArea;
-}
+
 public int getRent() {
 	return Rent;
 }
@@ -81,4 +96,12 @@ public String getBrokerageFee() {
 public void setBrokerageFee(String brokerageFee) {
 	BrokerageFee = brokerageFee;
 }
+
+    public long getIdBuilding() {
+        return IdBuilding;
+    }
+
+    public void setIdBuilding(long idBuilding) {
+        IdBuilding = idBuilding;
+    }
 }

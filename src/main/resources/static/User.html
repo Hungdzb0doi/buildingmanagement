@@ -1,0 +1,261 @@
+<!-- BẮT ĐẦU TỪ BREADCRUMB -->
+<div class="page-header">
+    <h1>
+        Danh sách tài khoản
+        <small><i class="ace-icon fa fa-angle-double-right"></i> Tra cứu & Phân quyền</small>
+    </h1>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+
+        <!-- FORM TÌM KIẾM NHÂN VIÊN -->
+        <div class="row" style="margin-bottom: 20px;">
+            <div class="col-xs-12">
+                <div class="widget-box">
+                    <div class="widget-header">
+                        <h4 class="widget-title">Tìm kiếm nhân viên</h4>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main">
+                            <form id="formSearchUser" class="form-horizontal">
+                                <div class="row">
+                                    <div class="col-sm-5">
+                                        <label><b>Tên nhân viên  </b></label>
+                                        <input type="text" id="searchName" class="form-control" placeholder="Nhập tên cần tìm...">
+                                    </div>
+                                    <div class="col-sm-5">
+                                        <label><b>Số điện thoại</b></label>
+                                        <input type="text" id="searchPhone" class="form-control" placeholder="Nhập số điện thoại...">
+                                    </div>
+                                    <div class="col-sm-2" style="margin-top: 25px;">
+                                        <button type="button" class="btn btn-sm btn-primary" id="btnSearchUser">
+                                            <i class="ace-icon fa fa-search"></i> Tìm kiếm
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- BẢNG DANH SÁCH NGƯỜI DÙNG -->
+        <div class="row">
+            <div class="col-xs-12">
+                <table id="userListTable" class="table table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th style="width: 50px;" class="center">STT</th>
+                        <th>Số điện thoại </th>
+                        <th>Họ và tên </th>
+                        <th>Các quyền hiện tại </th>
+                        <th style="width: 150px;" class="center">Thao tác</th>
+                    </tr>
+                    </thead>
+
+                    <tbody id="userListBody">
+                    <tr><td colspan="5" class="center">Đang tải dữ liệu...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- ============================================== -->
+<!-- MODAL PHÂN QUYỀN (CHỈ DÀNH CHO ADMIN) -->
+<!-- ============================================== -->
+<div class="modal fade" role="dialog" id="assignRoleModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 style="color:rgb(0, 140, 255);" class="modal-title"><i class="fa fa-shield"></i> Cấp quyền tài khoản</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" id="form-assign-role">
+                    <input type="hidden" id="targetUserId" >
+
+                    <div class="form-group">
+                        <label style="font-weight: bold; margin-bottom: 15px;">Đang cấp quyền cho: <span id="targetUsername" style="color: red;"></span></label>
+
+                        <select id="roleSelect" class="form-control" style="width: 100%;">
+                            <option value="">-- Đang tải quyền... --</option>
+                        </select>
+
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="btnSaveRole"><i class="fa fa-save"></i> Lưu phân quyền</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================== -->
+<!-- SCRIPT RIÊNG CỦA TRANG QUẢN LÝ USER (SPA) -->
+<!-- ============================================== -->
+<script>
+    // Hàm giải mã JWT Token lấy Payload (để biết user hiện tại là ai)
+    function parseJwt(token) {
+        try {
+            return JSON.parse(atob(token.split('.')[1]));
+        } catch (e) {
+            return null;
+        }
+    }
+
+    // 1. ĐỊNH NGHĨA API
+    var USER_API_URL = "http://localhost:8082/api/user";
+    var ASSIGN_ROLE_API_URL = "http://localhost:8082/api/user";
+    var ROLE_API_URL = "http://localhost:8082/api/role";
+
+    // 2. HÀM LOAD DANH SÁCH QUYỀN (ROLES)
+    function loadRoles() {
+        $.ajax({
+            type: "GET",
+            url: ROLE_API_URL,
+            dataType: "json",
+            success: function(response) {
+                var roleList = response.data ? response.data : response;
+                var html = '<option value="">-- Chọn vai trò --</option>';
+                $.each(roleList, function(index, role) {
+                    var displayCode = role.code.replace("ROLE_", "");
+                    html += '<option value="' + role.idRole + '" data-code="' + displayCode + '">' + displayCode + '</option>';
+                });
+                $('#roleSelect').html(html);
+            },
+            error: function() {
+                $('#roleSelect').html('<option value="">Lỗi tải quyền!</option>');
+            }
+        });
+    }
+
+    // 3. HÀM LOAD DANH SÁCH USER
+    function loadUsers() {
+        var nameVal = $('#searchName').val();
+        var phoneVal = $('#searchPhone').val();
+
+        $.ajax({
+            type: "GET",
+            url: USER_API_URL,
+            data: { userName: nameVal, phone: phoneVal },
+            dataType: "json",
+            success: function(response) {
+                var html = '';
+                var token = localStorage.getItem("accessToken");
+                var tokenData = parseJwt(token);
+                var currentUsername = tokenData ? tokenData.sub : '';
+                var stt = 1;
+                var userList = response.data;
+
+                if (!userList || userList.length === 0) {
+                    $('#userListBody').html('<tr><td colspan="5" class="center">Không tìm thấy dữ liệu.</td></tr>');
+                    return;
+                }
+
+                $.each(userList, function(index, user) {
+                    // Ẩn tài khoản đang đăng nhập (chống tự tước quyền của chính mình)
+                    if (user.userName === currentUsername) { return true; }
+
+                    html += '<tr>';
+                    html += '<td class="center">' + (stt++) + '</td>';
+                    html += '<td><b>' + user.phone + '</b></td>';
+                    html += '<td>' + (user.userName || 'Chưa cập nhật') + '</td>';
+
+                    html += '<td>';
+                    if (user.roles && user.roles.length > 0) {
+                        $.each(user.roles, function(i, roleName) {
+                            var colorClass = "label-info";
+                            if(roleName === "ADMIN" || roleName === "ROLE_ADMIN") colorClass = "label-danger";
+                            if(roleName === "MANAGER" || roleName === "ROLE_MANAGER") colorClass = "label-warning";
+                            // Style inline để badge không bị dính vào nhau nếu có nhiều quyền
+                            html += '<span class="label ' + colorClass + '" style="margin-right: 3px; margin-bottom: 3px; display: inline-block;">' + roleName + '</span>';
+                        });
+                    } else {
+                        html += '<span class="label label-default">Chưa có quyền</span>';
+                    }
+                    html += '</td>';
+
+                    html += '<td class="center">';
+                    var rolesStr = user.roles ? "'" + user.roles.join(",") + "'" : "''";
+                    html += '<button class="btn btn-xs btn-primary" onclick="openAssignRoleModal(' + user.idUser + ', \'' + user.userName + '\', ' + rolesStr + ')" title="Phân quyền">';
+                    html += '<i class="ace-icon fa fa-shield bigger-120"></i> Cấp quyền';
+                    html += '</button>';
+                    html += '</td>';
+                    html += '</tr>';
+                });
+
+                $('#userListBody').html(html);
+            }
+        });
+    }
+
+    // 4. SỰ KIỆN TÌM KIẾM
+    $('#btnSearchUser').off('click').on('click', function(e) {
+        e.preventDefault();
+        loadUsers();
+    });
+
+    // 5. XỬ LÝ SỰ KIỆN MODAL PHÂN QUYỀN
+    window.openAssignRoleModal = function(userId, username, currentRolesStr) {
+        $('#targetUserId').val(userId);
+        $('#targetUsername').text(username);
+
+        // Set selected option theo role hiện tại của user
+        var currentCode = '';
+        if (currentRolesStr) {
+            currentCode = currentRolesStr.split(',')[0].replace("ROLE_", "");
+        }
+        $('#roleSelect option').each(function() {
+            if ($(this).data('code') === currentCode) {
+                $('#roleSelect').val($(this).val());
+                return false;
+            }
+        });
+
+        $('#assignRoleModal').modal('show');
+    }
+
+    $('#btnSaveRole').off('click').on('click', function(e) {
+        e.preventDefault();
+
+        var userId = $('#targetUserId').val();
+        var selectedRoleId = $('#roleSelect').val();
+
+        if (!selectedRoleId) {
+            alert("Vui lòng chọn 1 quyền cho người dùng!");
+            return;
+        }
+
+        var data = {
+            idUser: parseInt(userId),
+            idRole: [parseInt(selectedRoleId)]
+        };
+
+        $.ajax({
+            type: 'POST',
+            url: ASSIGN_ROLE_API_URL,
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+            success: function(response) {
+                alert("Đã cập nhật quyền thành công!");
+                $('#assignRoleModal').modal('hide');
+                loadUsers();
+            },
+            error: function(err) {
+                alert("Cấp quyền thất bại! Vui lòng kiểm tra lại Server.");
+            }
+        });
+    });
+
+    // 6. KHỞI CHẠY LẦN ĐẦU (KHI PAGE ĐƯỢC BƠM VÀO INDEX)
+    loadUsers();
+    loadRoles();
+
+</script>

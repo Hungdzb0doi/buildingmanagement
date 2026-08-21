@@ -1,60 +1,62 @@
 package com.BuildingWeb.Entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import jakarta.persistence.*;
 @Entity
 @Table(name="buildingtype")
 public class BuildingTypeEntity {
 @Id
 @GeneratedValue(strategy=GenerationType.IDENTITY)
 @Column(name="IdBuildingType")
-private int IdBuildingType;
+private Integer idBuildingType;
 @Column(name="Code")
-private String Code;
+private String code;
 @Column(name="BuildingTypeName")
-private String BuildingTypeName;
+private String buildingTypeName;
 @Column(name="Note")
-private String Note;
+private String note;
 @ManyToOne
 @JoinColumn(name="IdBuilding")
-private BuildingEntity Building;
-public BuildingEntity getBuilding() {
-	return Building;
-}
-public void setBuilding(BuildingEntity building) {
-	Building = building;
-}
-public int getIdBuildingType() {
-	return IdBuildingType;
-}
-public void setIdBuildingType(int idBuildingType) {
-	IdBuildingType = idBuildingType;
-}
-public String getCode() {
-	return Code;
-}
-public void setCode(String code) {
-	Code = code;
-}
-public String getBuildingTypeName() {
-	return BuildingTypeName;
-}
-public void setBuildingTypeName(String buildingTypeName) {
-	BuildingTypeName = buildingTypeName;
-}
-public String getNote() {
-	return Note;
-}
-public void setNote(String note) {
-	Note = note;
-}
+private BuildingEntity building;
 
+    public Integer getIdBuildingType() {
+        return idBuildingType;
+    }
+
+    public void setIdBuildingType(Integer idBuildingType) {
+        this.idBuildingType = idBuildingType;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getBuildingTypeName() {
+        return buildingTypeName;
+    }
+
+    public void setBuildingTypeName(String buildingTypeName) {
+        this.buildingTypeName = buildingTypeName;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
+
+    public BuildingEntity getBuilding() {
+        return building;
+    }
+
+    public void setBuilding(BuildingEntity building) {
+        this.building = building;
+    }
 }
 
 

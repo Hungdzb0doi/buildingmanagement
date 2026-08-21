@@ -1,0 +1,311 @@
+<!-- BẮT ĐẦU TỪ PAGE-HEADER -->
+<div class="page-header">
+    <h1>Thêm tòa nhà mới <small><i class="ace-icon fa fa-angle-double-right"></i> Nhập thông tin chi tiết</small></h1>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        <form class="form-horizontal" role="form" id="form-edit">
+            <div class="widget-box">
+                <div class="widget-body">
+                    <div class="widget-main">
+
+                        <div class="form-section-title">Thông tin cơ bản & Địa chỉ</div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right">Tên tòa nhà</label>
+                            <div class="col-sm-9">
+                                <input type="text" name="buildingName" class="form-control" placeholder="Ví dụ: Landmark 81">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right">Mã tòa nhà</label>
+                            <div class="col-sm-4">
+                                <input type="text" name="code" class="form-control" placeholder="Ví dụ: L81">
+                            </div>
+                            <label class="col-sm-2 control-label no-padding-right">Quận</label>
+                            <div class="col-sm-3">
+                                <select class="form-control" id="districtId" name="idDistrict">
+                                    <option value="">-- Chọn Quận --</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right">Phường</label>
+                            <div class="col-sm-9">
+                                <input type="text" name="ward" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right">Đường / Phố</label>
+                            <div class="col-sm-9">
+                                <input type="text" name="way" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="form-section-title">Thông số kỹ thuật</div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right">Kết cấu / Hạng</label>
+                            <div class="col-sm-4">
+                                <input type="text" name="structure" class="form-control" placeholder="Kết cấu">
+                            </div>
+                            <div class="col-sm-5">
+                                <select name="class1" class="form-control">
+                                    <option value="">-- Chọn hạng --</option>
+                                    <option value="A">Hạng A</option>
+                                    <option value="B">Hạng B</option>
+                                    <option value="B">Hạng C</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right">Số tầng hầm / DT Sàn</label>
+                            <div class="col-sm-4">
+                                <input type="number" name="numberOfBasement" class="form-control" placeholder="Số tầng hầm">
+                            </div>
+                            <div class="col-sm-5">
+                                <input type="number" name="floorArea" class="form-control" placeholder="Diện tích sàn (m2)">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right">Hướng / Diện tích thuê</label>
+                            <div class="col-sm-4">
+                                <input type="text" name="direction" class="form-control" placeholder="Hướng tòa nhà">
+                            </div>
+                            <div class="col-sm-5">
+                                <input type="text" name="rentArea" class="form-control" placeholder="Ví dụ: 100, 200, 500">
+                            </div>
+                        </div>
+
+                        <div class="form-section-title">Giá thuê & Chi phí</div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right">Giá thuê / Mô tả</label>
+                            <div class="col-sm-3">
+                                <input type="number" name="rent" class="form-control" placeholder="Giá thuê">
+                            </div>
+                            <div class="col-sm-6">
+                                <input type="text" name="descriptionPrice" class="form-control" placeholder="Mô tả giá">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right">Phí dịch vụ / Ngoài giờ</label>
+                            <div class="col-sm-4">
+                                <input type="text" name="serviceFee" class="form-control" placeholder="Phí dịch vụ">
+                            </div>
+                            <div class="col-sm-5">
+                                <input type="text" name="overTimeFee" class="form-control" placeholder="Phí ngoài giờ">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right">Phí gửi xe máy / Ô tô</label>
+                            <div class="col-sm-4">
+                                <input type="text" name="motocycleFee" class="form-control" placeholder="Phí xe máy">
+                            </div>
+                            <div class="col-sm-5">
+                                <input type="text" name="carFee" class="form-control" placeholder="Phí ô tô">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right">Tiền điện / Đặt cọc</label>
+                            <div class="col-sm-4">
+                                <input type="text" name="electricityBill" class="form-control" placeholder="Tiền điện">
+                            </div>
+                            <div class="col-sm-5">
+                                <input type="number" name="deposit" class="form-control" placeholder="Số tháng đặt cọc">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right">Thanh toán / Thời hạn thuê</label>
+                            <div class="col-sm-4">
+                                <input type="text" name="pay" class="form-control" placeholder="Hình thức thanh toán">
+                            </div>
+                            <div class="col-sm-5">
+                                <input type="text" name="leaseTerm" class="form-control" placeholder="Thời hạn thuê">
+                            </div>
+                        </div>
+
+                        <div class="form-section-title">Quản lý & Khác</div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right">TG trang trí / Phí môi giới</label>
+                            <div class="col-sm-4">
+                                <input type="text" name="decorationTime" class="form-control" placeholder="Thời gian trang trí">
+                            </div>
+                            <div class="col-sm-5">
+                                <input type="text" name="brokerageFee" class="form-control" placeholder="Phí môi giới">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right">Người quản lý</label>
+                            <div class="col-sm-4">
+                                <input type="text" name="managerName" class="form-control" placeholder="Họ tên">
+                            </div>
+                            <div class="col-sm-5">
+                                <input type="text" name="managerPhone" class="form-control" placeholder="Số điện thoại">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right">Loại tòa nhà</label>
+                            <div class="col-sm-9">
+                                <label class="checkbox-inline"><input type="checkbox" name="typeCode" value="NOI_THAT"> Nội Thất</label>
+                                <label class="checkbox-inline"><input type="checkbox" name="typeCode" value="TANG_TRET"> Tầng trệt</label>
+                                <label class="checkbox-inline"><input type="checkbox" name="typeCode" value="NGUYEN_CAN"> Nguyên căn</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right">Ghi chú</label>
+                            <div class="col-sm-9">
+                                <textarea name="note" class="form-control" rows="3"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-3 control-label no-padding-right">
+                                <label>Chọn ảnh:</label>
+                            </div>
+                            <div class="col-sm-9">
+                                <button type="button" id="btnselectimage" name="btnselectimage" class="btn btn-white btn-default btn-round">
+                                    <i class="ace-icon fa fa-upload"></i> Upload
+                                </button>
+                                <br><br>
+                                <img src="/avatar1.png" style="width: 100px; height: 100px; border: 1px solid #ddd; padding: 3px;">
+                            </div>
+                        </div>
+
+                        <div class="clearfix form-actions" style="background-color: transparent; border-top: 1px solid #f3f4f6;">
+                            <div class="col-md-offset-3 col-md-9 text-right">
+                                <button class="btn btn-info btn-sm" type="button" id="btnAddBuilding">
+                                    <i class="ace-icon fa fa-check bigger-110"></i> Thêm tòa nhà
+                                </button>
+                                &nbsp; &nbsp; &nbsp;
+                                <!-- SỬA SPA: Nút Quay lại dùng class spa-link để chuyển về màn danh sách, không load trang -->
+                                <button class="btn btn-default btn-sm spa-link" type="button" data-page="/interface/building">
+                                    <i class="ace-icon fa fa-undo bigger-110"></i> Quay lại
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    // Định nghĩa hằng số API (Của trang Thêm)
+    var DISTRICT_API_URL = "http://localhost:8082/api/district";
+    var BUILDING_API_URL = "http://localhost:8082/api/building/";
+
+    // Hàm gọi API lấy danh sách quận
+    function loadDistricts() {
+        $.ajax({
+            type: "GET",
+            url: DISTRICT_API_URL,
+            dataType: "json",
+            success: function(response) {
+                var html = '<option value="">--Chọn Quận--</option>';
+                $.each(response, function(index, item) {
+                    html += '<option value="' + item.idDistrict + '">' + item.districtName + '</option>';
+                });
+                $('#districtId').html(html);
+            },
+            error: function(err) {
+                console.log("Không thể tải danh sách quận:", err);
+            }
+        });
+    }
+
+    loadDistricts();
+
+    // Nút Thêm mới (Dùng off().on() để fix lỗi click đúp trong SPA)
+    $('#btnAddBuilding').off('click').on('click', function(e) {
+        e.preventDefault();
+
+        var btn = $(this);
+        btn.prop('disabled', true);
+
+        var data = {};
+        var typeCode = [];
+        var formData = $('#form-edit').serializeArray();
+
+        $.each(formData, function (i, v) {
+            if (v.name == 'typeCode') {
+                typeCode.push(v.value);
+            } else {
+                data[v.name] = v.value;
+            }
+        });
+        data['typeCode'] = typeCode;
+
+        // Logic kiểm tra dữ liệu cơ bản
+        if(!data.buildingName) {
+            alert("Vui lòng nhập tên tòa nhà!");
+            btn.prop('disabled', false);
+            return;
+        }
+
+        if (data.rentArea) {
+            var regex = /^[\d\s,]+$/;
+            if (!regex.test(data.rentArea)) {
+                alert("LỖI: Diện tích thuê chỉ được chứa chữ số và dấu phẩy (Ví dụ: 100, 200)!");
+                btn.prop('disabled', false);
+                return;
+            }
+        }
+
+        if (data.rentArea && data.floorArea) {
+            var floorArea = parseInt(data.floorArea);
+
+            if (!isNaN(floorArea)) {
+                var rentAreaArray = data.rentArea.split(',');
+                var totalRentArea = 0;
+
+                $.each(rentAreaArray, function(index, value) {
+                    var cleanValue = value.trim();
+                    if (cleanValue !== "") {
+                        totalRentArea += parseInt(cleanValue);
+                    }
+                });
+
+                if (totalRentArea > floorArea) {
+                    alert("LỖI NGHIỆP VỤ: Tổng diện tích chào thuê (" + totalRentArea + " m2) phải lớn hơn hoặc bằng diện tích sàn (" + floorArea + " m2)!");
+                    btn.prop('disabled', false);
+                    return;
+                }
+            }
+        }
+
+        // Gọi API
+        $.ajax({
+            type: 'POST',
+            url: BUILDING_API_URL,
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+            success: function(res) {
+                alert("Thêm tòa nhà thành công!");
+
+                $('.spa-link[data-page="/interface/building"]').click();
+            },
+            error: function(err) {
+                console.log('Lỗi server:', err);
+                alert("Có lỗi xảy ra, vui lòng thử lại!");
+                btn.prop('disabled', false);
+            }
+        });
+    });
+</script>
