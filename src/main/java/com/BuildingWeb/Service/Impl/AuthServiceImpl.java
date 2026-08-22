@@ -18,6 +18,8 @@ import com.BuildingWeb.Service.AuthService;
 import com.BuildingWeb.Service.Impl.Security.CustomUserDetailsService;
 import com.BuildingWeb.Service.Impl.Security.JwtService;
 import org.modelmapper.ModelMapper;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -26,6 +28,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
+import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
@@ -78,5 +83,35 @@ public class AuthServiceImpl implements AuthService {
                 .roles(user.getAuthorities().stream().map(auth -> auth.getAuthority()).toList())
 
                 .build();
+    }
+    private final JavaMailSender mailSender;
+    @Override
+    public void generateAndSendOtp(String email){
+        UserEntity userEntity = userRepository.findByemail(email).orElseThrow(() -> new RuntimeException("User not found with email: " + email));
+
+        userEntity.setResetPasswordOtp(String.format("%06d",new Random().nextInt(999999)));
+        userEntity.setOtpTime(LocalDateTime.now().plusMinutes(5));
+        userRepository.save(userEntity);
+
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setTo(email);
+        mailMessage.setSubject("Your OTP for Password Reset");
+        mailMessage.setText("Your OTP is: " + userEntity.getResetPasswordOtp());
+        mailSender.send(mailMessage);
+
+    }
+    @Override
+    public void resetPassword(String email, String otp, String newPassword){
+        UserEntity userEntity = userRepository.findByemail(email).orElseThrow(() -> new RuntimeException("User not found with email: " + email));
+        if(!userEntity.getResetPasswordOtp().equals(otp)){
+            throw new RuntimeException("Invalid OTP");
+        }
+        if(userEntity.getOtpTime().isBefore(LocalDateTime.now())){
+            throw new RuntimeException("OTP has expired");
+        }
+        userEntity.setPassword(passwordEncoder.encode(newPassword));
+        userEntity.setResetPasswordOtp(null);
+        userEntity.setOtpTime(null);
+        userRepository.save(userEntity);
     }
 }

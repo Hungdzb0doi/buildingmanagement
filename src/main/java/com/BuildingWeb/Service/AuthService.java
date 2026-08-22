@@ -7,4 +7,6 @@ import com.BuildingWeb.DTO.response.JwtResponse;
 public interface AuthService {
     void Register(RequestRegisterDTO requestRegisterDTO);
     JwtResponse Login(RequestLoginDTO requestLoginDTO);
+    void generateAndSendOtp(String email);
+    void resetPassword(String email, String otp, String newPassword);
 }
