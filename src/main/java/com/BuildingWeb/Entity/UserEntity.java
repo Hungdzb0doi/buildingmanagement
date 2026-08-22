@@ -1,5 +1,6 @@
 package com.BuildingWeb.Entity;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +21,10 @@ private String password;
 private String email;
 @Column(name="Phone")
 private String phone;
+@Column(name = "ResetPasswordOtp")
+private String resetPasswordOtp;
+@Column(name = "OtpTime")
+private LocalDateTime otpTime;
 @OneToMany(mappedBy="user",fetch=FetchType.LAZY)
 private List<AssignmentCustomerEntity> assigmentCustomer=new ArrayList<>();
 @OneToMany(mappedBy = "user",fetch=FetchType.LAZY)
@@ -28,6 +33,23 @@ private List<UserRoleEntity> userRole=new ArrayList<>();
 private List<TransactionEntity> transaction=new ArrayList<>();
 @OneToMany(mappedBy = "user",fetch=FetchType.LAZY)
 private List<BuildingUserEntity> buildingUser=new ArrayList<>();
+
+    public String getResetPasswordOtp() {
+        return resetPasswordOtp;
+    }
+
+    public void setResetPasswordOtp(String resetPasswordOtp) {
+        this.resetPasswordOtp = resetPasswordOtp;
+    }
+
+    public LocalDateTime getOtpTime() {
+        return otpTime;
+    }
+
+    public void setOtpTime(LocalDateTime otpTime) {
+        this.otpTime = otpTime;
+    }
+
     public long getIdUser() {
         return idUser;
     }

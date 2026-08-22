@@ -42,4 +42,8 @@ public class Webcontroller {
     public String UpdateBuilding(){
         return "forward:/UpdateBuilding.html";
     }
+    @GetMapping("/interface/forgotpassword")
+    public String ForgotPassword(){
+        return "forward:/ForgotPassword.html";
+    }
 }

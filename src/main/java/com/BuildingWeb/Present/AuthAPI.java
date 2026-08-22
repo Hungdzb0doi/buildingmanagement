@@ -9,10 +9,7 @@ import com.BuildingWeb.Utils.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -32,6 +29,19 @@ public class AuthAPI {
         }else {
             return ResponseEntity.status(401).body(ApiResponse.error(ErrorCode.UNAUTHENTICATED.getCode(), ErrorCode.UNAUTHENTICATED.getMessage()));
         }
+    }
+    @PostMapping("/forgotpassword")
+    public ResponseEntity<ApiResponse<Object>> forgotPassword(@RequestParam String email){
+        authService.generateAndSendOtp(email);
+        return ResponseEntity.ok(ApiResponse.created(null));
+    }
+    @PostMapping("/resetpassword")
+    public ResponseEntity<ApiResponse<Object>> resetPassword(
+            @RequestParam String email,
+            @RequestParam String otp,
+            @RequestParam String newPassword){
+        authService.resetPassword(email,otp,newPassword);
+        return ResponseEntity.ok(ApiResponse.created(null));
     }
 
 }

@@ -38,8 +38,7 @@ public class SecurityConfig {
                         .requestMatchers("/", "/interface/**","/*.html").permitAll()
                         .requestMatchers("/assets/**").permitAll()
                         .requestMatchers("/favicon.ico").permitAll()
-                        .requestMatchers("/interface/dashboard","/Dashboard.html").hasAnyRole("ROLE_ADMIN", "ROLE_MANAGER")
-                        .requestMatchers("/interface/user","/User.html").hasAnyRole("ROLE_ADMIN")
+
                         .anyRequest().authenticated()
                 )
 
